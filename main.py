@@ -53,8 +53,8 @@ def parse_dsl(dsl_path, game_path):
     game_world.player = player
 
     # Set start and final positions
-    game_world.set_start_position(model.start_position[0])
-    game_world.set_final_position(model.final_position[0])
+    game_world.set_start_position(model.start_position.name)
+    game_world.set_final_position(model.final_position.name)
 
     return game_world
 
@@ -64,16 +64,27 @@ def properties(obj, obj_def):
         prop_name = prop.__class__.__name__
         if prop_name == "PortrayalProperties":
             prop_value = prop.portrayal
-        if prop_name == "ContainsProperties":
+        elif prop_name == "ContainsProperties":
             prop_value = []
             for item in prop.contains:
                 prop_value.append(item.name)
-        if prop_name == "ActivationProperties":
+        elif prop_name == "ActivationProperties":
             action_name = prop.action.__class__.__name__
             if action_name == "UnlockAction":
                 prop_value = UnlockAction(action_name,prop.action.direction,prop.action.target,prop.action.price)
-            if action_name == "HealAction":
+            elif action_name == "HealAction":
                 prop_value = HealAction(action_name, prop.action.amount)
+        elif prop_name == "HealthProperties":
+            prop_value = prop.health
+        elif prop_name == "ScoreProperties":
+            prop_value = prop.score
+        elif prop_name == "InventoryProperties":
+            prop_value = []
+            for item in prop.inventory:
+                prop_value.append(item.name)
+        elif prop_name == "PositionProperties":
+            prop_value = prop.position.name
+
         obj.add_property(prop_name, prop_value)
 
 
