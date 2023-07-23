@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
+
 class GamePlayFrame(ttk.Frame):
     def __init__(self, parent, game_content):
         super().__init__(parent)
