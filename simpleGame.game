@@ -1,0 +1,65 @@
+<entryway> {
+    portrayal "You are standing in the entryway of a haunted house."
+    contains key, flashlight, door1
+}
+<hallway> {
+    portrayal "You are in a dimly lit hallway."
+    contains door1, door2, ghost
+}
+<kitchen> {
+    portrayal "You are in the spooky kitchen."
+    contains knife, door2
+}
+<backyard> {
+    portrayal "You have escaped to the backyard! Congratulations, you won!"
+}
+
+[key] {
+    portrayal "A mysterious key lies on the ground."
+    activation unlock {
+        direction N
+        target hallway
+        price 5
+    }
+}
+[flashlight] {
+    portrayal "A flashlight lies on the ground."
+    activation heal 10
+}
+[knife] {
+    portrayal "A rusty knife sits on the kitchen counter."
+    activation heal -20
+}
+[door1] {
+    portrayal "A mysterious door stands before you."
+    activation unlock {
+        direction N
+        target hallway
+        price 5
+    }
+}
+[door2] {
+    portrayal "A creaky wooden door blocks your path."
+    activation unlock {
+        direction S
+        target kitchen
+        price 5
+    }
+}
+[ghost] {
+    portrayal "A spooky ghost floats ominously in the hallway."
+    activation heal -30
+}
+
+(adventurer) {
+    portrayal "You are an intrepid adventurer."
+    health 100
+    score 0
+    inventory {
+        flashlight
+    }
+    position entryway
+}
+
+start_position entryway
+final_position backyard

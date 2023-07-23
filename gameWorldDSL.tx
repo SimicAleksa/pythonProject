@@ -1,0 +1,125 @@
+GameWorld:
+    regions += Region
+    items += Item
+    player = Player
+    'start_position' start_position = [Region]
+    'final_position' final_position = [Region]
+;
+
+Region:
+    '<' name = GWID '>' '{'
+        properties *= RegionProperties
+    '}'
+;
+
+Item:
+    '[' name = GWID ']' '{'
+        properties *= ItemProperties
+    '}'
+;
+
+Player:
+    '(' name = GWID ')' '{'
+        properties *= PlayerProperties
+    '}'
+;
+
+RegionProperties:
+    BasicProperties | PriceProperties
+;
+
+ItemProperties:
+    BasicProperties | ActivationProperties
+;
+
+
+PlayerProperties:
+    BasicProperties | InventoryProperties | MovementProperties | HealthProperties | ScoreProperties | PositionProperties
+;
+
+BasicProperties:
+    PortrayalProperties | ContainsProperties
+;
+
+PortrayalProperties:
+    'portrayal' portrayal = STRING
+;
+
+ContainsProperties:
+    'contains' contains *= [Item][',']
+;
+
+
+PriceProperties:
+    'price' price = INT
+;
+
+InventoryProperties:
+    'inventory' '{' inventory *= [Item][','] '}'
+;
+
+HealthProperties:
+    'health' health = INT
+;
+
+ScoreProperties:
+    'score' score = INT
+;
+
+MovementProperties:
+    MoveCommand | OpenCommand | TakeCommand | DropCommand
+;
+
+MoveCommand:
+    'move' direction = Direction
+;
+
+OpenCommand:
+    'open' object = GWID
+;
+
+TakeCommand:
+    'take' object = GWID
+;
+
+DropCommand:
+    'drop' object = GWID
+;
+
+
+ActivationProperties:
+    'activation' action = ActivationAction
+;
+
+ActivationAction:
+    HealAction | UnlockAction
+;
+
+HealAction:
+    'heal' amount = INT
+;
+
+UnlockAction:
+    'unlock' '{' 'direction' direction = Direction 'target' target = GWID  'price' price = INT '}'
+;
+
+Keyword:
+    'start_position' | 'final_position' | 'drop' | 'take' | 'open' | 'move' | 'heal' | 'N' | 'S' | 'E' | 'W' | 'score' | 'health' |
+    'inventory' | 'action' | 'actions' | 'contains' | 'restriction' | 'price' | 'portrayal'
+;
+
+GWID:
+    !Keyword ID
+;
+
+PositionProperties:
+    'position' position = [Region]
+;
+
+Direction:
+    'N' | 'S' | 'E' | 'W'
+;
+
+Comment:
+    /\/\*(.|\n)*?\*\//
+;

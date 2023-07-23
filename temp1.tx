@@ -1,0 +1,5 @@
+(Region) { description ...}
+[Object] { description ...}
+Player { properties...}
+start_position [Region]
+final_position [Region]

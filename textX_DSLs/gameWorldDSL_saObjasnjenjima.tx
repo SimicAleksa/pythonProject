@@ -1,0 +1,28 @@
+GameWorld:
+    regions += Region //postojanje liste regions od jednog ili vise regiona
+    items += Item
+    player = Player // osnovna dodala
+    'start_position' start_position = [Region]  // 'start_position' oznacava da moramo napisati start_position pre samog Regiona koji cemo dodeliti startnoj poziciji
+    'final_position' final_position = [Region]
+;
+
+
+Region:                                 '<' i '>' su literali izmedju kojih se malazi ime naseg Regiona zatim slete '{' i '}'
+    '<' name= GWID '>' '{'              koje oznacavaju blok u kom se nalaze njegova svojstva
+        properties *= RegionProperties
+    '}'
+;
+
+
+
+// E sad posto mozemo da imamo problem oko ID-a koji je ugradjen u textX mi moramo malo da ga prepravimo odnosno doradimo
+tako da sledi pravilo pomocu koda obezbedjujemo da se kljucne reci nece ponavljivati u nazivima zato sto to moze da dovede do
+problema kod parsera. Zato moramo da imamo listu kljucinih reci na koje treba da obratimo paznju
+
+Keyword:
+    'start_position' | 'final_position'  // ovo nam predstavlja Ordered choice. Operator prolazi kroz listu od leve ka desnoj strani
+;                                           i pokusava da metchuje izraz. Uzima odnosno koristi prvi izraz koji metchuje
+
+GWID:
+    !Keyword ID             //za nas ID smo ovako obezbedili da preskacemo sve kljucne reci iz Keyword-a
+;

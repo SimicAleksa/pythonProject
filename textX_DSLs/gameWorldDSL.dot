@@ -1,0 +1,114 @@
+
+    digraph textX {
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+    node[
+        shape=record,
+        style=filled,
+        fillcolor=aliceblue
+    ]
+    nodesep = 0.3
+    edge[dir=black,arrowtail=empty]
+
+
+2721224015856[ label="{GameWorld|}"]
+
+2721224016816[ label="{Region|name: GWID\l}"]
+
+2721223900656[ label="{Item|name: GWID\l}"]
+
+2721223901616[ label="{Player|name: GWID\l}"]
+
+2721223908336[ label="{*RegionProperties|}"]
+
+2721223912176[ label="{*ItemProperties|}"]
+
+2721223921776[ label="{*PlayerProperties|}"]
+
+2721223917936[ label="{*BasicProperties|}"]
+
+2721223892976[ label="{PortrayalProperties|portrayal: STRING\l}"]
+
+2721223919856[ label="{ContainsProperties|}"]
+
+2721223909296[ label="{RestrictionProperties|}"]
+
+2721223918896[ label="{PriceProperties|price: INT\l}"]
+
+2721223896816[ label="{InventoryProperties|}"]
+
+2721223891056[ label="{HealthProperties|health: INT\l}"]
+
+2721223898736[ label="{ScoreProperties|score: INT\l}"]
+
+2721223915056[ label="{*MovementProperties|}"]
+
+2721223923696[ label="{MoveCommand|direction: Direction\l}"]
+
+2721223904496[ label="{OpenCommand|object: GWID\l}"]
+
+2721223924656[ label="{TakeCommand|object: GWID\l}"]
+
+2721223893936[ label="{DropCommand|object: GWID\l}"]
+
+2721223894896[ label="{ActivationProperties|}"]
+
+2721223895856[ label="{*ActivationAction|}"]
+
+2721223929456[ label="{HealAction|amount: INT\l}"]
+
+2721223936176[ label="{UnlockAction|direction: Direction\ltarget: GWID\lprice: INT\l}"]
+
+2721223940976[ label="{PositionProperties|}"]
+
+
+
+2721224015856 -> 2721224016816[arrowtail=diamond, dir=both, headlabel="regions 1..*"]
+2721224015856 -> 2721223900656[arrowtail=diamond, dir=both, headlabel="items 1..*"]
+2721224015856 -> 2721223901616[arrowtail=diamond, dir=both, headlabel="player "]
+2721224015856 -> 2721224016816[headlabel="start_position "]
+2721224015856 -> 2721224016816[headlabel="final_position "]
+2721224016816 -> 2721223908336[arrowtail=diamond, dir=both, headlabel="properties 0..*"]
+2721223900656 -> 2721223912176[arrowtail=diamond, dir=both, headlabel="properties 0..*"]
+2721223901616 -> 2721223921776[arrowtail=diamond, dir=both, headlabel="properties 0..*"]
+2721223908336 -> 2721223917936 [dir=back]
+2721223908336 -> 2721223909296 [dir=back]
+2721223908336 -> 2721223918896 [dir=back]
+2721223912176 -> 2721223917936 [dir=back]
+2721223912176 -> 2721223894896 [dir=back]
+2721223921776 -> 2721223917936 [dir=back]
+2721223921776 -> 2721223896816 [dir=back]
+2721223921776 -> 2721223915056 [dir=back]
+2721223921776 -> 2721223891056 [dir=back]
+2721223921776 -> 2721223898736 [dir=back]
+2721223921776 -> 2721223940976 [dir=back]
+2721223917936 -> 2721223892976 [dir=back]
+2721223917936 -> 2721223919856 [dir=back]
+2721223919856 -> 2721223900656[headlabel="contains 0..*"]
+2721223909296 -> 2721223900656[headlabel="restriction 0..*"]
+2721223896816 -> 2721223900656[headlabel="inventory 0..*"]
+2721223915056 -> 2721223923696 [dir=back]
+2721223915056 -> 2721223904496 [dir=back]
+2721223915056 -> 2721223924656 [dir=back]
+2721223915056 -> 2721223893936 [dir=back]
+2721223894896 -> 2721223895856[arrowtail=diamond, dir=both, headlabel="action "]
+2721223895856 -> 2721223929456 [dir=back]
+2721223895856 -> 2721223936176 [dir=back]
+2721223940976 -> 2721224016816[headlabel="position "]
+match_rules [ shape=plaintext, label=< <table>
+	<tr>
+		<td><b>Comment</b></td><td>\/\*(.|\n)*?\*\/</td>
+	</tr>
+	<tr>
+		<td><b>Direction</b></td><td>N|S|E|W</td>
+	</tr>
+	<tr>
+		<td><b>GWID</b></td><td>Not(Keyword) ID</td>
+	</tr>
+	<tr>
+		<td><b>Keyword</b></td><td>start_position|final_position|drop|take|open|move|heal|N|S|E|W|score|health|inventory|action|actions|contains|restriction|price|portrayal</td>
+	</tr>
+</table> >]
+
+
+}
