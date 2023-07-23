@@ -25,12 +25,13 @@ Player:
 ;
 
 RegionProperties:
-    BasicProperties | RestrictionProperties | PriceProperties
+    BasicProperties | PriceProperties
 ;
 
 ItemProperties:
     BasicProperties | ActivationProperties
 ;
+
 
 PlayerProperties:
     BasicProperties | InventoryProperties | MovementProperties | HealthProperties | ScoreProperties | PositionProperties
@@ -48,16 +49,13 @@ ContainsProperties:
     'contains' contains *= [Item][',']
 ;
 
-RestrictionProperties:
-    'restriction' restriction *= [Item][',']
-;
 
 PriceProperties:
     'price' price = INT
 ;
 
 InventoryProperties:
-    'inventory' inventory *= [Item][',']
+    'inventory' '{' inventory *= [Item][','] '}'
 ;
 
 HealthProperties:
@@ -102,12 +100,12 @@ HealAction:
 ;
 
 UnlockAction:
-    'unlock' direction = Direction target = GWID price = INT
+    'unlock' '{' 'direction' direction = Direction 'target' target = GWID  'price' price = INT '}'
 ;
 
 Keyword:
-    'start_position' | 'final_position' | 'drop' | 'take' | 'open' | 'move' | 'heal' | 'N' | 'S' | 'E' | 'W' | 'score' | 'health' |
-    'inventory' | 'action' | 'actions' | 'contains' | 'restriction' | 'price' | 'portrayal'
+    'start_position' | 'final_position' | 'drop' | 'take' | 'open' | 'move' | 'heal' | 'N' | 'S' | 'E' | 'W' | 'score' |
+    'inventory' | 'action' | 'unlock' | 'contains' | 'health' | 'price' | 'portrayal' | 'activation' | 'heal' | 'position'
 ;
 
 GWID:

@@ -11,90 +11,86 @@
     edge[dir=black,arrowtail=empty]
 
 
-2721224015856[ label="{GameWorld|}"]
+1938094162880[ label="{GameWorld|}"]
 
-2721224016816[ label="{Region|name: GWID\l}"]
+1938094164800[ label="{Region|name: GWID\l}"]
 
-2721223900656[ label="{Item|name: GWID\l}"]
+1938094053440[ label="{Item|name: GWID\l}"]
 
-2721223901616[ label="{Player|name: GWID\l}"]
+1938094051520[ label="{Player|name: GWID\l}"]
 
-2721223908336[ label="{*RegionProperties|}"]
+1938094065920[ label="{*RegionProperties|}"]
 
-2721223912176[ label="{*ItemProperties|}"]
+1938094059200[ label="{*ItemProperties|}"]
 
-2721223921776[ label="{*PlayerProperties|}"]
+1938094040960[ label="{*PlayerProperties|}"]
 
-2721223917936[ label="{*BasicProperties|}"]
+1938094054400[ label="{*BasicProperties|}"]
 
-2721223892976[ label="{PortrayalProperties|portrayal: STRING\l}"]
+1938094056320[ label="{PortrayalProperties|portrayal: STRING\l}"]
 
-2721223919856[ label="{ContainsProperties|}"]
+1938094069760[ label="{ContainsProperties|}"]
 
-2721223909296[ label="{RestrictionProperties|}"]
+1938094068800[ label="{PriceProperties|price: INT\l}"]
 
-2721223918896[ label="{PriceProperties|price: INT\l}"]
+1938094061120[ label="{InventoryProperties|}"]
 
-2721223896816[ label="{InventoryProperties|}"]
+1938094047680[ label="{HealthProperties|health: INT\l}"]
 
-2721223891056[ label="{HealthProperties|health: INT\l}"]
+1938094071680[ label="{ScoreProperties|score: INT\l}"]
 
-2721223898736[ label="{ScoreProperties|score: INT\l}"]
+1938094058240[ label="{*MovementProperties|}"]
 
-2721223915056[ label="{*MovementProperties|}"]
+1938094072640[ label="{MoveCommand|direction: Direction\l}"]
 
-2721223923696[ label="{MoveCommand|direction: Direction\l}"]
+1938094041920[ label="{OpenCommand|object: GWID\l}"]
 
-2721223904496[ label="{OpenCommand|object: GWID\l}"]
+1938094042880[ label="{TakeCommand|object: GWID\l}"]
 
-2721223924656[ label="{TakeCommand|object: GWID\l}"]
+1938094049600[ label="{DropCommand|object: GWID\l}"]
 
-2721223893936[ label="{DropCommand|object: GWID\l}"]
+1938094076480[ label="{ActivationProperties|}"]
 
-2721223894896[ label="{ActivationProperties|}"]
+1938094077440[ label="{*ActivationAction|}"]
 
-2721223895856[ label="{*ActivationAction|}"]
+1938094078400[ label="{HealAction|amount: INT\l}"]
 
-2721223929456[ label="{HealAction|amount: INT\l}"]
+1938094079360[ label="{UnlockAction|direction: Direction\ltarget: GWID\lprice: INT\l}"]
 
-2721223936176[ label="{UnlockAction|direction: Direction\ltarget: GWID\lprice: INT\l}"]
-
-2721223940976[ label="{PositionProperties|}"]
+1938094092800[ label="{PositionProperties|}"]
 
 
 
-2721224015856 -> 2721224016816[arrowtail=diamond, dir=both, headlabel="regions 1..*"]
-2721224015856 -> 2721223900656[arrowtail=diamond, dir=both, headlabel="items 1..*"]
-2721224015856 -> 2721223901616[arrowtail=diamond, dir=both, headlabel="player "]
-2721224015856 -> 2721224016816[headlabel="start_position "]
-2721224015856 -> 2721224016816[headlabel="final_position "]
-2721224016816 -> 2721223908336[arrowtail=diamond, dir=both, headlabel="properties 0..*"]
-2721223900656 -> 2721223912176[arrowtail=diamond, dir=both, headlabel="properties 0..*"]
-2721223901616 -> 2721223921776[arrowtail=diamond, dir=both, headlabel="properties 0..*"]
-2721223908336 -> 2721223917936 [dir=back]
-2721223908336 -> 2721223909296 [dir=back]
-2721223908336 -> 2721223918896 [dir=back]
-2721223912176 -> 2721223917936 [dir=back]
-2721223912176 -> 2721223894896 [dir=back]
-2721223921776 -> 2721223917936 [dir=back]
-2721223921776 -> 2721223896816 [dir=back]
-2721223921776 -> 2721223915056 [dir=back]
-2721223921776 -> 2721223891056 [dir=back]
-2721223921776 -> 2721223898736 [dir=back]
-2721223921776 -> 2721223940976 [dir=back]
-2721223917936 -> 2721223892976 [dir=back]
-2721223917936 -> 2721223919856 [dir=back]
-2721223919856 -> 2721223900656[headlabel="contains 0..*"]
-2721223909296 -> 2721223900656[headlabel="restriction 0..*"]
-2721223896816 -> 2721223900656[headlabel="inventory 0..*"]
-2721223915056 -> 2721223923696 [dir=back]
-2721223915056 -> 2721223904496 [dir=back]
-2721223915056 -> 2721223924656 [dir=back]
-2721223915056 -> 2721223893936 [dir=back]
-2721223894896 -> 2721223895856[arrowtail=diamond, dir=both, headlabel="action "]
-2721223895856 -> 2721223929456 [dir=back]
-2721223895856 -> 2721223936176 [dir=back]
-2721223940976 -> 2721224016816[headlabel="position "]
+1938094162880 -> 1938094164800[arrowtail=diamond, dir=both, headlabel="regions 1..*"]
+1938094162880 -> 1938094053440[arrowtail=diamond, dir=both, headlabel="items 1..*"]
+1938094162880 -> 1938094051520[arrowtail=diamond, dir=both, headlabel="player "]
+1938094162880 -> 1938094164800[headlabel="start_position "]
+1938094162880 -> 1938094164800[headlabel="final_position "]
+1938094164800 -> 1938094065920[arrowtail=diamond, dir=both, headlabel="properties 0..*"]
+1938094053440 -> 1938094059200[arrowtail=diamond, dir=both, headlabel="properties 0..*"]
+1938094051520 -> 1938094040960[arrowtail=diamond, dir=both, headlabel="properties 0..*"]
+1938094065920 -> 1938094054400 [dir=back]
+1938094065920 -> 1938094068800 [dir=back]
+1938094059200 -> 1938094054400 [dir=back]
+1938094059200 -> 1938094076480 [dir=back]
+1938094040960 -> 1938094054400 [dir=back]
+1938094040960 -> 1938094061120 [dir=back]
+1938094040960 -> 1938094058240 [dir=back]
+1938094040960 -> 1938094047680 [dir=back]
+1938094040960 -> 1938094071680 [dir=back]
+1938094040960 -> 1938094092800 [dir=back]
+1938094054400 -> 1938094056320 [dir=back]
+1938094054400 -> 1938094069760 [dir=back]
+1938094069760 -> 1938094053440[headlabel="contains 0..*"]
+1938094061120 -> 1938094053440[headlabel="inventory 0..*"]
+1938094058240 -> 1938094072640 [dir=back]
+1938094058240 -> 1938094041920 [dir=back]
+1938094058240 -> 1938094042880 [dir=back]
+1938094058240 -> 1938094049600 [dir=back]
+1938094076480 -> 1938094077440[arrowtail=diamond, dir=both, headlabel="action "]
+1938094077440 -> 1938094078400 [dir=back]
+1938094077440 -> 1938094079360 [dir=back]
+1938094092800 -> 1938094164800[headlabel="position "]
 match_rules [ shape=plaintext, label=< <table>
 	<tr>
 		<td><b>Comment</b></td><td>\/\*(.|\n)*?\*\/</td>
@@ -106,7 +102,7 @@ match_rules [ shape=plaintext, label=< <table>
 		<td><b>GWID</b></td><td>Not(Keyword) ID</td>
 	</tr>
 	<tr>
-		<td><b>Keyword</b></td><td>start_position|final_position|drop|take|open|move|heal|N|S|E|W|score|health|inventory|action|actions|contains|restriction|price|portrayal</td>
+		<td><b>Keyword</b></td><td>start_position|final_position|drop|take|open|move|heal|N|S|E|W|score|inventory|action|unlock|contains|health|price|portrayal|activation|heal|position</td>
 	</tr>
 </table> >]
 
