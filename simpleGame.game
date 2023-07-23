@@ -30,6 +30,10 @@
     portrayal "A rusty knife sits on the kitchen counter."
     activation heal -20
 }
+[snikers] {
+    portrayal "A snikers bar. Caramel, peanuts, and chocolate delightfully restoring health."
+    activation heal -20
+}
 [door1] {
     portrayal "A mysterious door stands before you."
     activation unlock {
@@ -56,7 +60,7 @@
     health 100
     score 0
     inventory {
-        flashlight
+        flashlight, snikers
     }
     position entryway
 }

@@ -9,6 +9,7 @@ class App:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Interactive Fiction Creator")
+        self.play_frame = ttk.Frame(self.root)
 
         window_width = 800
         window_height = 600
@@ -48,6 +49,10 @@ class App:
         self.root.mainloop()
 
     def show_play_frame(self):
+        self.fiction_frame.pack_forget()
+        self.library_frame.pack_forget()
+        self.start_frame.pack_forget()
+
         selected_game = self.games_listbox.get(tk.ACTIVE)
         if selected_game:
             with open(selected_game, "r") as file:
@@ -59,17 +64,20 @@ class App:
     def show_start_frame(self):
         self.fiction_frame.pack_forget()
         self.library_frame.pack_forget()
+        self.play_frame.pack_forget()
         self.start_frame.pack()
 
     def show_fiction_frame(self, is_loaded):
         self.start_frame.pack_forget()
         self.library_frame.pack_forget()
+        self.play_frame.pack_forget()
         self.fiction_frame.pack()
         self.on_game_selected(is_loaded)
         self.load_games()
 
     def show_library_frame(self):
         self.start_frame.pack_forget()
+        self.play_frame.pack_forget()
         self.fiction_frame.pack_forget()
         self.library_frame.pack()
 

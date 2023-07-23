@@ -38,3 +38,9 @@ class Player:
 
     def add_property(self, prop_name, prop_value):
         self.properties[prop_name] = prop_value
+
+    def print_self(self):
+        inventory = ""
+        for item in self.properties["InventoryProperties"]:
+            inventory += item + " "
+        return f'You find yourself currently in {self.properties["PositionProperties"]}. Your backpack has {inventory}'

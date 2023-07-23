@@ -1,17 +1,25 @@
 import tkinter as tk
 from tkinter import ttk
 
+from gameInterpeter import parse_dsl
+
 
 class GamePlayFrame(ttk.Frame):
     def __init__(self, parent, game_title,game_content):
         super().__init__(parent)
 
         # Parse the game_content here as needed
+        gameWorld = parse_dsl("gameWorldDSL.tx",game_title)
+
+
+
+        frame_title_label = ttk.Label(self, text=game_title[:-5], font=("Arial", 14, "bold"))
+        frame_title_label.pack(pady=10)
 
         # Display the parsed text
         self.text_area = tk.Text(self, wrap=tk.WORD, width=80, height=20)
         self.text_area.pack(pady=10)
-        self.text_area.insert("1.0", "Parsed game text will appear here.")  # Replace with parsed text
+        self.text_area.insert("1.0", "Parsed game text will appear here."+gameWorld.player.print_self())  # Replace with parsed text
 
         # Display the image (replace the 'generate_image' function with your image generation code)
         self.image_label = ttk.Label(self, text="Image will appear here.")
