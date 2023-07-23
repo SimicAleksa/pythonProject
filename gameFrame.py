@@ -19,7 +19,7 @@ class GamePlayFrame(ttk.Frame):
         # Display the parsed text
         self.text_area = tk.Text(self, wrap=tk.WORD, width=80, height=20)
         self.text_area.pack(pady=10)
-        self.text_area.insert("1.0", "Parsed game text will appear here."+gameWorld.player.print_self())  # Replace with parsed text
+        self.text_area.insert("1.0", "Parsed game text will appear here."+gameWorld.regions[0].print_self())  # Replace with parsed text
 
         # Display the image (replace the 'generate_image' function with your image generation code)
         self.image_label = ttk.Label(self, text="Image will appear here.")

@@ -21,6 +21,12 @@ class Region:
     def add_property(self, prop_name, prop_value):
         self.properties[prop_name] = prop_value
 
+    def print_self(self):
+        items = ""
+        for item in self.properties["ContainsProperties"]:
+            items += item + " "
+        return f'{self.properties["PortrayalProperties"]}. Inside you see {items}'
+
 
 class Item:
     def __init__(self, name):
@@ -29,6 +35,9 @@ class Item:
 
     def add_property(self, prop_name, prop_value):
         self.properties[prop_name] = prop_value
+
+    def print_self(self):
+        return f'{self.properties["PortrayalProperties"]}'
 
 
 class Player:
