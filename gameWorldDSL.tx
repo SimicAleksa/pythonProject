@@ -104,8 +104,8 @@ UnlockAction:
 ;
 
 Keyword:
-    'start_position' | 'final_position' | 'drop' | 'take' | 'open' | 'move' | 'heal' | 'N' | 'S' | 'E' | 'W' | 'score' | 'health' |
-    'inventory' | 'action' | 'actions' | 'contains' | 'restriction' | 'price' | 'portrayal'
+    'start_position' | 'final_position' | 'drop' | 'take' | 'open' | 'move' | 'heal' | 'N' | 'S' | 'E' | 'W' | 'score' |
+    'inventory' | 'action' | 'unlock' | 'contains' | 'health' | 'price' | 'portrayal' | 'activation' | 'heal' | 'position'
 ;
 
 GWID:

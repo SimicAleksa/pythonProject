@@ -4,6 +4,25 @@ from textx import metamodel_from_file
 import sys
 from os.path import join, dirname
 
+class UnlockAction:
+  def __init__(self, name, direction,target, price):
+    self.name = name
+    self.direction = direction
+    self.target = target
+    self.price = price
+
+class HealAction:
+  def __init__(self, name, amount):
+    self.name = name
+    self.amount = amount
+
+class UnlockAction:
+  def __init__(self, name, direction,target, price):
+    self.name = name
+    self.direction = direction
+    self.target = target
+    self.price = price
+
 
 def parse_dsl(dsl_path, game_path):
     # Load the metamodel from the DSL grammar
@@ -18,39 +37,44 @@ def parse_dsl(dsl_path, game_path):
     # Create regions
     for region_def in model.regions:
         region = Region(region_def.name)
-        for prop in region_def.properties:
-            prop_name = prop.__class__.__name__
-            if prop_name == "PortrayalProperties":
-                prop_value = prop.portrayal
-            if prop_name == "ContainsProperties":
-                prop_value = []
-                for item in prop.contains:
-                    prop_value.append(item.name)
-            region.add_property(prop_name, prop_value)
+        properties(region, region_def)
         game_world.regions.append(region)
 
     # Create items
     for item_def in model.items:
         item = Item(item_def.name)
-        for prop in item_def.properties:
-            prop_name = list(prop.keys())[0]
-            prop_value = prop[prop_name]
-            item.add_property(prop_name, prop_value)
+        properties(item, item_def)
         game_world.items.append(item)
 
     # Create player
     player_def = model.player
-    game_world.player = Player(player_def.name)
-    for prop in player_def.properties:
-        prop_name = list(prop.keys())[0]
-        prop_value = prop[prop_name]
-        game_world.player.add_property(prop_name, prop_value)
+    player=Player(player_def.name)
+    properties(player, player_def)
+    game_world.player = player
 
     # Set start and final positions
     game_world.set_start_position(model.start_position[0])
     game_world.set_final_position(model.final_position[0])
 
     return game_world
+
+
+def properties(obj, obj_def):
+    for prop in obj_def.properties:
+        prop_name = prop.__class__.__name__
+        if prop_name == "PortrayalProperties":
+            prop_value = prop.portrayal
+        if prop_name == "ContainsProperties":
+            prop_value = []
+            for item in prop.contains:
+                prop_value.append(item.name)
+        if prop_name == "ActivationProperties":
+            action_name = prop.action.__class__.__name__
+            if action_name == "UnlockAction":
+                prop_value = UnlockAction(action_name,prop.action.direction,prop.action.target,prop.action.price)
+            if action_name == "HealAction":
+                prop_value = HealAction(action_name, prop.action.amount)
+        obj.add_property(prop_name, prop_value)
 
 
 if __name__ == '__main__':
