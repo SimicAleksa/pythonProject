@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk,filedialog
+from tkinter import ttk, filedialog
 import os
 
 from gameFrame import GamePlayFrame
@@ -21,7 +21,7 @@ class App:
         self.navbar = tk.Menu(self.root)
         self.root.config(menu=self.navbar)
         self.navbar.add_command(label="Start", command=self.show_start_frame)
-        self.navbar.add_command(label="Create Fiction", command=self.show_fiction_frame)
+        self.navbar.add_command(label="Create Fiction", command=lambda: self.show_fiction_frame(True))
         self.navbar.add_command(label="Library", command=self.show_library_frame)
 
         self.start_frame = ttk.Frame(self.root)
@@ -36,14 +36,6 @@ class App:
 
         self.fiction_type = tk.StringVar()
         self.fiction_type.set("game")
-
-        self.game_radio = ttk.Radiobutton(self.fiction_frame, text="Game", variable=self.fiction_type, value="game",
-                                          command=self.on_game_selected)
-        self.game_radio.pack()
-
-        self.movement_radio = ttk.Radiobutton(self.fiction_frame, text="Movement", variable=self.fiction_type,
-                                              value="movement", command=self.on_movement_selected)
-        self.movement_radio.pack()
 
         self.save_button = ttk.Button(self.fiction_frame, text="Save", command=self.save_fiction)
         self.save_button.pack(pady=10)
@@ -61,7 +53,7 @@ class App:
             with open(selected_game, "r") as file:
                 content = file.read()
             self.library_frame.pack_forget()
-            self.play_frame = GamePlayFrame(self.root, content)
+            self.play_frame = GamePlayFrame(self.root, selected_game, content)
             self.play_frame.pack()
 
     def show_start_frame(self):
@@ -69,11 +61,11 @@ class App:
         self.library_frame.pack_forget()
         self.start_frame.pack()
 
-    def show_fiction_frame(self):
+    def show_fiction_frame(self, is_loaded):
         self.start_frame.pack_forget()
         self.library_frame.pack_forget()
         self.fiction_frame.pack()
-        self.on_game_selected()
+        self.on_game_selected(is_loaded)
         self.load_games()
 
     def show_library_frame(self):
@@ -88,16 +80,11 @@ class App:
             with open(file_path, "w") as file:
                 file.write(self.text_area.get("1.0", "end-1c"))
 
-    def on_movement_selected(self):
-        if self.fiction_type.get() == "movement":
-            self.text_area.delete("1.0", "end")
-            self.text_area.insert("1.0", "begin\n\nend\n")
-
-    def on_game_selected(self):
-        if self.fiction_type.get() == "game":
+    def on_game_selected(self, is_loaded):
+        if self.fiction_type.get() == "game" and is_loaded:
             self.text_area.delete("1.0", "end")
             self.text_area.insert("1.0",
-                                  "(Region) { description ...}\n[Object] { description ...}\nPlayer { "
+                                  "(Region) { description ...}\n[Object] { description ...}\n(Player) { "
                                   "properties...}\nstart_position [Region]\n"
                                   "final_position [Region]")
 
@@ -125,4 +112,4 @@ class App:
                 content = file.read()
                 self.text_area.delete("1.0", tk.END)
                 self.text_area.insert("1.0", content)
-                self.show_fiction_frame()
+                self.show_fiction_frame(False)

@@ -3,7 +3,7 @@ from tkinter import ttk
 
 
 class GamePlayFrame(ttk.Frame):
-    def __init__(self, parent, game_content):
+    def __init__(self, parent, game_title,game_content):
         super().__init__(parent)
 
         # Parse the game_content here as needed
