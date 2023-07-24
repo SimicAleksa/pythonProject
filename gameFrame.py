@@ -5,13 +5,11 @@ from gameInterpeter import parse_dsl
 
 
 class GamePlayFrame(ttk.Frame):
-    def __init__(self, parent, game_title,game_content):
+    def __init__(self, parent, game_title, game_content):
         super().__init__(parent)
 
         # Parse the game_content here as needed
-        self.gameWorld = parse_dsl("gameWorldDSL.tx",game_title)
-
-
+        self.gameWorld = parse_dsl("gameWorldDSL.tx", game_title)
 
         frame_title_label = ttk.Label(self, text=game_title[:-5], font=("Arial", 14, "bold"))
         frame_title_label.pack(pady=10)
@@ -39,11 +37,19 @@ class GamePlayFrame(ttk.Frame):
         pass
 
     def process_user_input(self, event):
-        while True:
-            user_input = self.input_entry.get()
-            self.text_area.insert("end", '\n' + user_input)
-            self.input_entry.delete(0, tk.END)
-            if self.gameWorld.player.properties["PositionProperties"] == self.gameWorld.final_position:
-                self.text_area.delete("1.0", tk.END)
-                self.text_area.insert("1.0", "THE END")
+        user_input = self.input_entry.get()
+        self.text_area.insert("end", '\n' + user_input)
+        self.input_entry.delete(0, tk.END)
 
+        if self.gameWorld.player.position == self.gameWorld.final_position:
+            self.text_area.delete("1.0", tk.END)
+            self.text_area.insert("1.0", "THE END")
+        else:
+            if user_input in ["move N", "move E", "move S", "move W"]:
+                direction = user_input[-1]
+                text, did_move = self.gameWorld.player.move(direction, self.gameWorld)
+                if did_move:
+                    self.text_area.insert("end", '\n' + text)
+                    self.text_area.insert("end", '\n' + self.gameWorld.player.position.print_self())
+            else:
+                self.text_area.insert("end", " <--> Invalid command")

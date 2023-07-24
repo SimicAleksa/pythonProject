@@ -41,6 +41,8 @@ def parse_dsl(dsl_path, game_path):
         properties(region, region_def)
         for connection in region_def.connections:
             region.add_connection(connection.direction, connection.target)
+        for requirement in region_def.requirements:
+            region.add_requirements(requirement.item)
         game_world.regions.append(region)
 
     # Create items
@@ -55,7 +57,9 @@ def parse_dsl(dsl_path, game_path):
     for prop in player_def.properties:
         prop_name = prop.__class__.__name__
         if prop_name == "PositionProperties":
-            starting_position = prop.position
+            for player_region in game_world.regions:
+                if prop.position.name == player_region.name:
+                    starting_position = player_region
         elif prop_name == "HealthProperties":
             health = prop.health
         elif prop_name == "ScoreProperties":
@@ -72,8 +76,11 @@ def parse_dsl(dsl_path, game_path):
     game_world.player = player
 
     # Set start and final positions
-    game_world.set_start_position(model.start_position.name)
-    game_world.set_final_position(model.final_position.name)
+    for player_region in game_world.regions:
+        if player_region.name == model.start_position.name:
+            game_world.set_start_position(player_region)
+        elif player_region.name == model.final_position.name:
+            game_world.set_final_position(player_region)
 
     return game_world
 

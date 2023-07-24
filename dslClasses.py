@@ -18,6 +18,10 @@ class Region:
         self.name = name
         self.properties = {}
         self.doors = {}
+        self.requirements=[]
+
+    def add_requirements(self, requirement):
+        self.requirements.append(requirement)
 
     def add_connection(self, direction, target_region):
         self.doors[direction] = target_region
@@ -53,22 +57,31 @@ class Item:
 class Player:
     def __init__(self, name, start_position):
         self.name = name
-        self.health=100
-        self.score=0
+        self.health = 100
+        self.score = 0
         self.inventory = []
-        self.position=start_position
+        self.position = start_position
         self.properties = {}
 
     def add_property(self, prop_name, prop_value):
         self.properties[prop_name] = prop_value
 
-    def move(self, direction):
+    def heal(self, amount):
+        self.health += amount
+        if amount > 0:
+            return "You healed " + amount
+        else:
+            return "You took " + amount + " damage"
+
+    def move(self, direction, gameworld_regions):
         if direction in self.position.doors:
             target_room = self.position.doors[direction]
-            self.position = target_room
-            print("You moved to", target_room.name)
+            for region in gameworld_regions.regions:
+                if region.name == target_room:
+                    self.position = region
+            return "You moved to " + self.position.name, True
         else:
-            print("You can't go that way.")
+            return "You can't go that way.", False
 
     def print_self(self):
         inventory = ""
