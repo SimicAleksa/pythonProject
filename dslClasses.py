@@ -18,10 +18,10 @@ class Region:
         self.name = name
         self.properties = {}
         self.doors = {}
-        self.requirements=[]
+        self.requirements=None
 
     def add_requirements(self, requirement):
-        self.requirements.append(requirement)
+        self.requirements = requirement
 
     def add_connection(self, direction, target_region):
         self.doors[direction] = target_region
@@ -78,10 +78,13 @@ class Player:
             target_room = self.position.doors[direction]
             for region in gameworld_regions.regions:
                 if region.name == target_room:
-                    self.position = region
-            return "You moved to " + self.position.name, True
+                    if region.requirements in self.inventory:
+                        self.position = region
+                    else:
+                        return "Requirements not matched. You neeed a " + region.requirements
+            return "You moved to " + self.position.name
         else:
-            return "You can't go that way.", False
+            return "You can't go that way."
 
     def print_self(self):
         inventory = ""

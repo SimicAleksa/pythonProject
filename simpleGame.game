@@ -2,7 +2,6 @@
     portrayal "You are standing in the entryway of a haunted house."
     contains key, flashlight, door1
     N hallway
-    requirements {}
 }
 
 <hallway> {
@@ -10,7 +9,7 @@
     contains door1, door2, ghost
     N kitchen
     S entryway
-    requirements { key }
+    requirements key
 }
 
 <kitchen> {
@@ -18,13 +17,11 @@
     contains knife, door2, door3
     S hallway
     W backyard
-    requirements {}
 }
 <backyard> {
     contains door3
     portrayal "You have escaped to the backyard! Congratulations, you won! Move anywhere to escape"
     E kitchen
-    requirements {}
 }
 
 [key] {

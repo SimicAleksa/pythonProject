@@ -10,7 +10,7 @@ Region:
     '<' name = GWID '>' '{'
         properties *= RegionProperties
         connections *= Connection
-        'requirements' '{' requirements *= Requirement[','] '}'
+        ('requirements' requirements = Requirement)?
     '}'
 ;
 

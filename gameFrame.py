@@ -47,9 +47,8 @@ class GamePlayFrame(ttk.Frame):
         else:
             if user_input in ["move N", "move E", "move S", "move W"]:
                 direction = user_input[-1]
-                text, did_move = self.gameWorld.player.move(direction, self.gameWorld)
-                if did_move:
-                    self.text_area.insert("end", '\n' + text)
-                    self.text_area.insert("end", '\n' + self.gameWorld.player.position.print_self())
+                text = self.gameWorld.player.move(direction, self.gameWorld)
+                self.text_area.insert("end", '\n' + text)
+                self.text_area.insert("end", '\n' + self.gameWorld.player.position.print_self())
             else:
                 self.text_area.insert("end", " <--> Invalid command")
