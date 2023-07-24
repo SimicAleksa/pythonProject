@@ -40,7 +40,7 @@ def parse_dsl(dsl_path, game_path):
         region = Region(region_def.name)
         properties(region, region_def)
         for connection in region_def.connections:
-            region.add_connection(connection.direction,connection.target)
+            region.add_connection(connection.direction, connection.target)
         game_world.regions.append(region)
 
     # Create items
@@ -51,7 +51,23 @@ def parse_dsl(dsl_path, game_path):
 
     # Create player
     player_def = model.player
-    player = Player(player_def.name)
+    starting_position = None
+    for prop in player_def.properties:
+        prop_name = prop.__class__.__name__
+        if prop_name == "PositionProperties":
+            starting_position = prop.position
+        elif prop_name == "HealthProperties":
+            health = prop.health
+        elif prop_name == "ScoreProperties":
+            score = prop.score
+        elif prop_name == "InventoryProperties":
+            inventory = []
+            for item in prop.inventory:
+                inventory.append(item.name)
+    player = Player(player_def.name, starting_position)
+    player.health = health
+    player.score = score
+    player.inventory = inventory
     properties(player, player_def)
     game_world.player = player
 

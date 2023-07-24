@@ -51,12 +51,24 @@ class Item:
 
 
 class Player:
-    def __init__(self, name):
+    def __init__(self, name, start_position):
         self.name = name
+        self.health=100
+        self.score=0
+        self.inventory = []
+        self.position=start_position
         self.properties = {}
 
     def add_property(self, prop_name, prop_value):
         self.properties[prop_name] = prop_value
+
+    def move(self, direction):
+        if direction in self.position.doors:
+            target_room = self.position.doors[direction]
+            self.position = target_room
+            print("You moved to", target_room.name)
+        else:
+            print("You can't go that way.")
 
     def print_self(self):
         inventory = ""
