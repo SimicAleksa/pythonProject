@@ -1,17 +1,26 @@
 <entryway> {
     portrayal "You are standing in the entryway of a haunted house."
     contains key, flashlight, door1
+    N hallway
 }
+
 <hallway> {
     portrayal "You are in a dimly lit hallway."
     contains door1, door2, ghost
+    N kitchen
+    S entryway
 }
+
 <kitchen> {
     portrayal "You are in the spooky kitchen."
-    contains knife, door2
+    contains knife, door2, door3
+    S hallway
+    W backyard
 }
 <backyard> {
+    contains door3
     portrayal "You have escaped to the backyard! Congratulations, you won!"
+    E kitchen
 }
 
 [key] {
@@ -50,6 +59,16 @@
         price 5
     }
 }
+
+[door3] {
+    portrayal "A creaky wooden door blocks your path."
+    activation unlock {
+        direction W
+        target backyard
+        price 5
+    }
+}
+
 [ghost] {
     portrayal "A spooky ghost floats ominously in the hallway."
     activation heal -30

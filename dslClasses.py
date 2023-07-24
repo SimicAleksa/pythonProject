@@ -17,6 +17,10 @@ class Region:
     def __init__(self, name):
         self.name = name
         self.properties = {}
+        self.doors = {}
+
+    def add_connection(self, direction, target_region):
+        self.doors[direction] = target_region
 
     def add_property(self, prop_name, prop_value):
         self.properties[prop_name] = prop_value
@@ -38,6 +42,12 @@ class Item:
 
     def print_self(self):
         return f'{self.properties["PortrayalProperties"]}'
+
+    def print_self_contains(self):
+        items = ""
+        for item in self.properties["ContainsProperties"]:
+            items += item + " "
+        return f'{self.properties["PortrayalProperties"]}. Inside you see {items}'
 
 
 class Player:

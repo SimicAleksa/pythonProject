@@ -9,8 +9,15 @@ GameWorld:
 Region:
     '<' name = GWID '>' '{'
         properties *= RegionProperties
+        connections *= Connection
     '}'
 ;
+
+Connection:
+    direction = Direction
+    target = GWID
+;
+
 
 Item:
     '[' name = GWID ']' '{'

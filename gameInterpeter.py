@@ -39,6 +39,8 @@ def parse_dsl(dsl_path, game_path):
     for region_def in model.regions:
         region = Region(region_def.name)
         properties(region, region_def)
+        for connection in region_def.connections:
+            region.add_connection(connection.direction,connection.target)
         game_world.regions.append(region)
 
     # Create items

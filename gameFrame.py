@@ -9,7 +9,7 @@ class GamePlayFrame(ttk.Frame):
         super().__init__(parent)
 
         # Parse the game_content here as needed
-        gameWorld = parse_dsl("gameWorldDSL.tx",game_title)
+        self.gameWorld = parse_dsl("gameWorldDSL.tx",game_title)
 
 
 
@@ -19,7 +19,7 @@ class GamePlayFrame(ttk.Frame):
         # Display the parsed text
         self.text_area = tk.Text(self, wrap=tk.WORD, width=80, height=20)
         self.text_area.pack(pady=10)
-        self.text_area.insert("1.0", "Parsed game text will appear here."+gameWorld.regions[0].print_self())  # Replace with parsed text
+        self.text_area.insert("1.0", self.gameWorld.regions[0].print_self())  # Replace with parsed text
 
         # Display the image (replace the 'generate_image' function with your image generation code)
         self.image_label = ttk.Label(self, text="Image will appear here.")
@@ -39,9 +39,11 @@ class GamePlayFrame(ttk.Frame):
         pass
 
     def process_user_input(self, event):
-        user_input = self.input_entry.get()
-        # Process the user input here and update the game state accordingly
-        # Display the updated game text and image as needed
+        while True:
+            user_input = self.input_entry.get()
+            self.text_area.insert("end", '\n' + user_input)
+            self.input_entry.delete(0, tk.END)
+            if self.gameWorld.player.properties["PositionProperties"] == self.gameWorld.final_position:
+                self.text_area.delete("1.0", tk.END)
+                self.text_area.insert("1.0", "THE END")
 
-        # For now, let's just clear the input field
-        self.input_entry.delete(0, tk.END)
