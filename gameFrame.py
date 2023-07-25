@@ -54,7 +54,7 @@ class GamePlayFrame(ttk.Frame):
         self.text_area.insert("end", "\n\n" + help_message + "\n\n")
 
     def process_user_input(self, event):
-        user_input = self.input_entry.get()
+        user_input = self.input_entry.get().strip()
         self.text_area.insert("end", '\n' + user_input)
         self.input_entry.delete(0, tk.END)
         the_end = False
