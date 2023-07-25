@@ -119,7 +119,7 @@ HealAction:
 
 Keyword:
     'start_position' | 'final_position' | 'drop' | 'take' | 'open' | 'move' | 'heal' | 'N' | 'S' | 'E' | 'W' | 'score' |
-    'inventory' | 'action' | 'unlock' | 'contains' | 'health' | 'price' | 'portrayal' | 'activation' | 'heal' | 'position'
+    'inventory' | 'action' | 'contains' | 'health' | 'price' | 'portrayal' | 'activation' | 'heal' | 'position'
 ;
 
 GWID:

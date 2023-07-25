@@ -3,26 +3,10 @@ from textx import metamodel_from_file
 from os.path import join, dirname
 
 
-class UnlockAction:
-    def __init__(self, name, direction, target, price):
-        self.name = name
-        self.direction = direction
-        self.target = target
-        self.price = price
-
-
 class HealAction:
     def __init__(self, name, amount):
         self.name = name
         self.amount = amount
-
-
-class UnlockAction:
-    def __init__(self, name, direction, target, price):
-        self.name = name
-        self.direction = direction
-        self.target = target
-        self.price = price
 
 
 def parse_dsl(dsl_path, game_path):
@@ -101,9 +85,7 @@ def properties(obj, obj_def):
                 prop_value.append(item.name)
         elif prop_name == "ActivationProperties":
             action_name = prop.action.__class__.__name__
-            if action_name == "UnlockAction":
-                prop_value = UnlockAction(action_name, prop.action.direction, prop.action.target, prop.action.price)
-            elif action_name == "HealAction":
+            if action_name == "HealAction":
                 prop_value = HealAction(action_name, prop.action.amount)
         elif prop_name == "HealthProperties":
             prop_value = prop.health
