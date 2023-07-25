@@ -1,7 +1,12 @@
 import tkinter as tk
 from tkinter import ttk
-
 from gameInterpeter import parse_dsl
+from PIL import ImageTk
+from hugging_face import access_token
+
+import torch
+from torch import autocast
+from diffusers import StableDiffusionPipeline
 
 possible_commands = [
     "move N",
@@ -16,6 +21,12 @@ possible_commands = [
 
 # Help command message
 help_message = "Possible commands:\n" + "\n".join(possible_commands)
+modelid = "CompVis/stable-diffusion-v1-4"
+device = "cuda"
+pipeline = StableDiffusionPipeline.from_pretrained(modelid, revision="fp16", safety_checker=None,
+                                                   requires_safety_checker=False,
+                                                   torch_dtype=torch.float16, use_auth_token=access_token)
+pipeline.to(device)
 
 
 class GamePlayFrame(ttk.Frame):
@@ -36,7 +47,7 @@ class GamePlayFrame(ttk.Frame):
         # Display the image (replace the 'generate_image' function with your image generation code)
         self.image_label = ttk.Label(self, text="Image will appear here.")
         self.image_label.pack(pady=10)
-        self.generate_image()  # Call your image generation function here
+        self.generate_image(self.gameWorld.regions[0].print_self())  # Call your image generation function here
 
         # Input area for user interaction
         self.input_label = ttk.Label(self, text="Type your commands:")
@@ -45,10 +56,11 @@ class GamePlayFrame(ttk.Frame):
         self.input_entry.pack(pady=5)
         self.input_entry.bind("<Return>", self.process_user_input)
 
-    def generate_image(self):
-        # Replace this with your image generation code
-        # For example, you can create a Canvas widget and draw the image using shapes and colors
-        pass
+    def generate_image(self, prompt):
+        with autocast(device):
+            image = pipeline(prompt.lower(), guidance_scale=6.5)["sample"][0]
+        img = ImageTk.PhotoImage(image)
+        self.image_label.config(image=img)
 
     def display_help(self):
         self.text_area.insert("end", "\n\n" + help_message + "\n\n")
