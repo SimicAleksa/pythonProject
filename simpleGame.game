@@ -1,6 +1,6 @@
 <entryway> {
     portrayal "You are standing in the entryway of a haunted house."
-    contains key, flashlight, door1
+    contains key, flashlight, door1, chest
     N hallway
 }
 
@@ -22,6 +22,19 @@
     contains door3
     portrayal "You have escaped to the backyard! Congratulations, you won! Move anywhere to escape"
     E kitchen
+}
+
+[chest] {
+    portrayal "A wooden chest on the ground."
+    contains twix, mars
+}
+[twix] {
+    portrayal "A twix bar. Caramel, shortbread and chocolate delightfully restoring health."
+    activation heal 50
+}
+[mars] {
+    portrayal "A mars bar. Caramel and chocolate delightfully restoring health."
+    activation heal 700
 }
 
 [key] {
@@ -60,7 +73,7 @@
     health 100
     score 0
     inventory {
-        flashlight, snikers
+        snikers
     }
     position entryway
 }

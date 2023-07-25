@@ -57,9 +57,6 @@ class Item:
     def add_property(self, prop_name, prop_value):
         self.properties[prop_name] = prop_value
 
-    def use(self):
-        pass
-
     def print_self(self):
         return f'{self.properties["PortrayalProperties"]}'
 
@@ -98,7 +95,7 @@ class Player:
 
     def take(self, item, gameworld):
         if self.position.is_item_contained(item):
-            if "door" in item: #TODO ovo treba prosiriti za zabranjeim stvarima za kupiti
+            if "door" in item:  # TODO ovo treba prosiriti za zabranjeim stvarima za kupiti
                 return "You cant do that"
             else:
                 for gameworldItem in gameworld.items:
@@ -115,8 +112,38 @@ class Player:
             for gameworld_item in gameworld.items:
                 if item == gameworld_item.name:
                     self.position.items.append(gameworld_item)
-                    return "You dropped "+item+" in "+self.position.name
+                    return "You dropped " + item + " in " + self.position.name
         return "You dont have that item"
+
+    def use(self, item, gameworld):
+        if item in self.inventory:
+            for gameworld_item in gameworld.items:
+                if gameworld_item.name == item:
+                    if "ActivationProperties" in gameworld_item.properties:
+                        action = gameworld_item.properties["ActivationProperties"]
+                        if action.name == "HealAction":
+                            self.inventory.remove(item)
+                            self.health += action.amount
+                            return "You used " + item + ". Your health is now " + str(self.health)
+                    else:
+                        return "That item cant be used"
+        return "You dont have that item"
+
+    def open(self, item, gameworld):
+        if self.position.is_item_contained(item):
+            for gameworldItem in gameworld.items:
+                if item == gameworldItem.name:
+                    if "ContainsProperties" in gameworldItem.properties:
+                        for containItem in gameworldItem.properties["ContainsProperties"]:
+                            for tempgameworlditem in gameworld.items:
+                                if tempgameworlditem.name == containItem:
+                                    self.position.items.append(tempgameworlditem)
+                        self.remove_item(item)
+                        return "You opened " + gameworldItem.name+""
+                    else:
+                        return "You cant do that"
+        else:
+            return "You cant do that"
 
     def move(self, direction, gameworld):
         if direction in self.position.doors:

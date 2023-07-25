@@ -60,5 +60,15 @@ class GamePlayFrame(ttk.Frame):
                 text = self.gameWorld.player.drop(item, self.gameWorld)
                 self.text_area.insert("end", '\n' + text)
                 self.text_area.insert("end", '\n' + self.gameWorld.player.print_self())
+            elif "use" in user_input:
+                item = user_input[4:]
+                text = self.gameWorld.player.use(item, self.gameWorld)
+                self.text_area.insert("end", '\n' + text)
+                self.text_area.insert("end", '\n' + self.gameWorld.player.print_self())
+            elif "open" in user_input:
+                item = user_input[5:]
+                text = self.gameWorld.player.open(item, self.gameWorld)
+                self.text_area.insert("end", '\n' + text)
+                self.text_area.insert("end", '\n' + self.gameWorld.player.print_self())
             else:
                 self.text_area.insert("end", " <--> Invalid command")
