@@ -50,9 +50,10 @@ class Region:
 
 
 class Item:
-    def __init__(self, name):
+    def __init__(self, name, isStatic):
         self.name = name
         self.properties = {}
+        self.isStatic = isStatic
 
     def add_property(self, prop_name, prop_value):
         self.properties[prop_name] = prop_value
@@ -95,14 +96,14 @@ class Player:
 
     def take(self, item, gameworld):
         if self.position.is_item_contained(item):
-            if "door" in item:  # TODO ovo treba prosiriti za zabranjeim stvarima za kupiti
-                return "You cant do that"
-            else:
-                for gameworldItem in gameworld.items:
-                    if item == gameworldItem.name:
+            for gameworldItem in gameworld.items:
+                if item == gameworldItem.name:
+                    if not gameworldItem.isStatic:
                         self.inventory.append(item)
                         self.remove_item(item)
                         return "You picked up " + gameworldItem.name
+                    else:
+                        return "You cant do that"
         else:
             return "That item is not present in this room"
 

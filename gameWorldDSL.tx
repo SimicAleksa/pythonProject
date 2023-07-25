@@ -27,6 +27,7 @@ Connection:
 Item:
     '[' name = GWID ']' '{'
         properties *= ItemProperties
+        'isStatic' isStatic = BOOL
     '}'
 ;
 

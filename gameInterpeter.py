@@ -52,7 +52,7 @@ def parse_dsl(dsl_path, game_path):
 
     # Create items
     for item_def in model.items:
-        item = Item(item_def.name)
+        item = Item(item_def.name,item_def.isStatic)
         properties(item, item_def)
         game_world.items.append(item)
 

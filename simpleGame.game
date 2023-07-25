@@ -27,45 +27,56 @@
 [chest] {
     portrayal "A wooden chest on the ground."
     contains twix, mars
+    isStatic True
 }
 [twix] {
     portrayal "A twix bar. Caramel, shortbread and chocolate delightfully restoring health."
     activation heal 50
+    isStatic False
 }
 [mars] {
     portrayal "A mars bar. Caramel and chocolate delightfully restoring health."
     activation heal 700
+    isStatic False
 }
 
 [key] {
     portrayal "A mysterious key lies on the ground."
+    isStatic False
 }
 [flashlight] {
     portrayal "A flashlight lies on the ground."
     activation heal 10
+    isStatic False
 }
 [knife] {
     portrayal "A rusty knife sits on the kitchen counter."
     activation heal -20
+    isStatic False
 }
 [snikers] {
     portrayal "A snikers bar. Caramel, peanuts, and chocolate delightfully restoring health."
     activation heal -20
+    isStatic False
 }
 [door1] {
     portrayal "A mysterious door stands before you."
+    isStatic True
 }
 [door2] {
     portrayal "A creaky wooden door blocks your path."
+    isStatic True
 }
 
 [door3] {
     portrayal "A creaky wooden door blocks your path."
+    isStatic True
 }
 
 [ghost] {
     portrayal "A spooky ghost floats ominously in the hallway."
     activation heal -30
+    isStatic False
 }
 
 (adventurer) {
