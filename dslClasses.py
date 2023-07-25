@@ -44,8 +44,9 @@ class Region:
     def print_self(self):
         items = ""
         for item in self.items:
-            items += item.name + " "
-        return f'{self.properties["PortrayalProperties"]}. Inside you see {items}'
+            items += item.name + ", "
+        items = items[:-2]
+        return f'{self.properties["PortrayalProperties"]}. Inside you see {items}. '
 
 
 class Item:
@@ -65,7 +66,8 @@ class Item:
     def print_self_contains(self):
         items = ""
         for item in self.properties["ContainsProperties"]:
-            items += item + " "
+            items += item + ", "
+        items = items[:-2]
         return f'{self.properties["PortrayalProperties"]}. Inside you see {items}'
 
 
@@ -107,12 +109,23 @@ class Player:
         else:
             return "That item is not present in this room"
 
+    def drop(self, item, gameworld):
+        if item in self.inventory:
+            self.inventory.remove(item)
+            for gameworld_item in gameworld.items:
+                if item == gameworld_item.name:
+                    self.position.items.append(gameworld_item)
+                    return "You dropped "+item+" in "+self.position.name
+        return "You dont have that item"
+
     def move(self, direction, gameworld):
         if direction in self.position.doors:
             target_room = self.position.doors[direction]
             for region in gameworld.regions:
                 if region.name == target_room:
-                    if region.requirements in self.inventory:
+                    if region.requirements is None:
+                        self.position = region
+                    elif region.requirements in self.inventory:
                         self.inventory.remove(region.requirements)
                         region.requirements = None
                         self.position = region
@@ -125,5 +138,6 @@ class Player:
     def print_self(self):
         inventory = ""
         for item in self.inventory:
-            inventory += item + " "
-        return f'You find yourself currently in {self.properties["PositionProperties"]}. Your backpack has {inventory}'
+            inventory += item + ", "
+        inventory = inventory[:-2]
+        return f'{self.position.print_self()}Your backpack has {inventory}.'

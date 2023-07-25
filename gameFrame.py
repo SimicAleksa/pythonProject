@@ -49,10 +49,15 @@ class GamePlayFrame(ttk.Frame):
                 direction = user_input[-1]
                 text = self.gameWorld.player.move(direction, self.gameWorld)
                 self.text_area.insert("end", '\n' + text)
-                self.text_area.insert("end", '\n' + self.gameWorld.player.position.print_self())
+                self.text_area.insert("end", '\n' + self.gameWorld.player.print_self())
             elif "take" in user_input:
                 item = user_input[5:]
                 text = self.gameWorld.player.take(item, self.gameWorld)
+                self.text_area.insert("end", '\n' + text)
+                self.text_area.insert("end", '\n' + self.gameWorld.player.print_self())
+            elif "drop" in user_input:
+                item = user_input[5:]
+                text = self.gameWorld.player.drop(item, self.gameWorld)
                 self.text_area.insert("end", '\n' + text)
                 self.text_area.insert("end", '\n' + self.gameWorld.player.print_self())
             else:
