@@ -3,6 +3,20 @@ from tkinter import ttk
 
 from gameInterpeter import parse_dsl
 
+possible_commands = [
+    "move N",
+    "move S",
+    "move W",
+    "move E",
+    "drop <item>",
+    "open <item>",
+    "take <item>",
+    "use <item>"
+]
+
+# Help command message
+help_message = "Possible commands:\n" + "\n".join(possible_commands)
+
 
 class GamePlayFrame(ttk.Frame):
     def __init__(self, parent, game_title, game_content):
@@ -36,39 +50,51 @@ class GamePlayFrame(ttk.Frame):
         # For example, you can create a Canvas widget and draw the image using shapes and colors
         pass
 
+    def display_help(self):
+        self.text_area.insert("end", "\n\n" + help_message + "\n\n")
+
     def process_user_input(self, event):
         user_input = self.input_entry.get()
         self.text_area.insert("end", '\n' + user_input)
         self.input_entry.delete(0, tk.END)
+        the_end = False
 
         if self.gameWorld.player.position == self.gameWorld.final_position:
-            self.text_area.delete("1.0", tk.END)
-            self.text_area.insert("1.0", "THE END")
-        else:
-            if user_input in ["move N", "move E", "move S", "move W"]:
-                direction = user_input[-1]
-                text = self.gameWorld.player.move(direction, self.gameWorld)
-                self.text_area.insert("end", '\n' + text)
-                self.text_area.insert("end", '\n' + self.gameWorld.player.print_self())
-            elif "take" in user_input:
-                item = user_input[5:]
-                text = self.gameWorld.player.take(item, self.gameWorld)
-                self.text_area.insert("end", '\n' + text)
-                self.text_area.insert("end", '\n' + self.gameWorld.player.print_self())
-            elif "drop" in user_input:
-                item = user_input[5:]
-                text = self.gameWorld.player.drop(item, self.gameWorld)
-                self.text_area.insert("end", '\n' + text)
-                self.text_area.insert("end", '\n' + self.gameWorld.player.print_self())
-            elif "use" in user_input:
-                item = user_input[4:]
-                text = self.gameWorld.player.use(item, self.gameWorld)
-                self.text_area.insert("end", '\n' + text)
-                self.text_area.insert("end", '\n' + self.gameWorld.player.print_self())
-            elif "open" in user_input:
-                item = user_input[5:]
-                text = self.gameWorld.player.open(item, self.gameWorld)
-                self.text_area.insert("end", '\n' + text)
-                self.text_area.insert("end", '\n' + self.gameWorld.player.print_self())
-            else:
-                self.text_area.insert("end", " <--> Invalid command")
+            possible_moves = ["move N", "move E", "move S", "move W"]
+            for door in self.gameWorld.final_position.doors:
+                possible_move = "move " + door
+                possible_moves.remove(possible_move)
+            if user_input in possible_moves:
+                self.text_area.delete("1.0", tk.END)
+                self.text_area.insert("1.0", "THE END")
+                the_end = True
+
+        if user_input in ["move N", "move E", "move S", "move W"] and not the_end:
+            direction = user_input[-1]
+            text = self.gameWorld.player.move(direction, self.gameWorld)
+            self.text_area.insert("end", '\n' + text)
+            self.text_area.insert("end", '\n' + self.gameWorld.player.print_self())
+        elif "take" in user_input and not the_end:
+            item = user_input[5:]
+            text = self.gameWorld.player.take(item, self.gameWorld)
+            self.text_area.insert("end", '\n' + text)
+            self.text_area.insert("end", '\n' + self.gameWorld.player.print_self())
+        elif "drop" in user_input and not the_end:
+            item = user_input[5:]
+            text = self.gameWorld.player.drop(item, self.gameWorld)
+            self.text_area.insert("end", '\n' + text)
+            self.text_area.insert("end", '\n' + self.gameWorld.player.print_self())
+        elif "use" in user_input and not the_end:
+            item = user_input[4:]
+            text = self.gameWorld.player.use(item, self.gameWorld)
+            self.text_area.insert("end", '\n' + text)
+            self.text_area.insert("end", '\n' + self.gameWorld.player.print_self())
+        elif "open" in user_input and not the_end:
+            item = user_input[5:]
+            text = self.gameWorld.player.open(item, self.gameWorld)
+            self.text_area.insert("end", '\n' + text)
+            self.text_area.insert("end", '\n' + self.gameWorld.player.print_self())
+        elif "help" in user_input and not the_end:
+            self.display_help()
+        elif not the_end:
+            self.text_area.insert("end", " <--> Invalid command. Type help for possible commands")
