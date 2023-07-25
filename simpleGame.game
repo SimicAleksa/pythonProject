@@ -26,11 +26,6 @@
 
 [key] {
     portrayal "A mysterious key lies on the ground."
-    activation unlock {
-        direction N
-        target hallway
-        price 5
-    }
 }
 [flashlight] {
     portrayal "A flashlight lies on the ground."
@@ -46,28 +41,13 @@
 }
 [door1] {
     portrayal "A mysterious door stands before you."
-    activation unlock {
-        direction N
-        target hallway
-        price 5
-    }
 }
 [door2] {
     portrayal "A creaky wooden door blocks your path."
-    activation unlock {
-        direction S
-        target kitchen
-        price 5
-    }
 }
 
 [door3] {
     portrayal "A creaky wooden door blocks your path."
-    activation unlock {
-        direction W
-        target backyard
-        price 5
-    }
 }
 
 [ghost] {

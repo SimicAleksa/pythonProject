@@ -79,7 +79,7 @@ ScoreProperties:
 ;
 
 MovementProperties:
-    MoveCommand | OpenCommand | TakeCommand | DropCommand
+    MoveCommand | OpenCommand | TakeCommand | DropCommand | UseCommand
 ;
 
 MoveCommand:
@@ -98,22 +98,23 @@ DropCommand:
     'drop' object = GWID
 ;
 
+UseCommand:
+    'use' object = GWID
+;
+
 
 ActivationProperties:
     'activation' action = ActivationAction
 ;
 
 ActivationAction:
-    HealAction | UnlockAction
+    HealAction
 ;
 
 HealAction:
     'heal' amount = INT
 ;
 
-UnlockAction:
-    'unlock' '{' 'direction' direction = Direction 'target' target = GWID  'price' price = INT '}'
-;
 
 Keyword:
     'start_position' | 'final_position' | 'drop' | 'take' | 'open' | 'move' | 'heal' | 'N' | 'S' | 'E' | 'W' | 'score' |

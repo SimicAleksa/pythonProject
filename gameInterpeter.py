@@ -43,6 +43,11 @@ def parse_dsl(dsl_path, game_path):
             region.add_connection(connection.direction, connection.target)
         if region_def.requirements:
             region.add_requirements(region_def.requirements.item)
+        for prop in region_def.properties:
+            prop_name = prop.__class__.__name__
+            if prop_name == "ContainsProperties":
+                for item in prop.contains:
+                    region.items.append(item)
         game_world.regions.append(region)
 
     # Create items
