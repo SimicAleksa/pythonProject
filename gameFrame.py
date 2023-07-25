@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
+import customtkinter as ctk
 from gameInterpeter import parse_dsl
-from PIL import ImageTk
+from PIL import ImageTk, Image
 from hugging_face import access_token
 
 import torch
@@ -45,8 +46,8 @@ class GamePlayFrame(ttk.Frame):
         self.text_area.insert("1.0", self.gameWorld.regions[0].print_self())  # Replace with parsed text
 
         # Display the image (replace the 'generate_image' function with your image generation code)
-        self.image_label = ttk.Label(self, text="Image will appear here.")
-        self.image_label.pack(pady=10)
+        self.image_label = ctk.CTkLabel(self,height=512, width=512)
+        self.image_label.place(x=10, y=110)
         self.generate_image(self.gameWorld.regions[0].print_self())  # Call your image generation function here
 
         # Input area for user interaction
@@ -60,7 +61,7 @@ class GamePlayFrame(ttk.Frame):
         with autocast(device):
             image = pipeline(prompt.lower(), guidance_scale=6.5)["sample"][0]
         img = ImageTk.PhotoImage(image)
-        self.image_label.config(image=img)
+        self.image_label.configure(image=img)
 
     def display_help(self):
         self.text_area.insert("end", "\n\n" + help_message + "\n\n")
