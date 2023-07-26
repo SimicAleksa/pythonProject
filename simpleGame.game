@@ -1,11 +1,11 @@
 <entryway> {
-    portrayal "You are standing in the entryway of a haunted house."
+    portrayal "the entryway of a haunted house"
     contains key, flashlight, door1, chest
     N hallway
 }
 
 <hallway> {
-    portrayal "You are in a dimly lit hallway."
+    portrayal "a dimly lit hallway"
     contains door1, door2, ghost
     N kitchen
     S entryway
@@ -13,14 +13,14 @@
 }
 
 <kitchen> {
-    portrayal "You are in the spooky kitchen."
+    portrayal "the spooky kitchen"
     contains knife, door2, door3
     S hallway
     W backyard
 }
 <backyard> {
     contains door3
-    portrayal "You have escaped to the backyard! Congratulations, you won! Move anywhere to escape"
+    portrayal "the backyard! Congratulations, you won! Move anywhere to escape"
     E kitchen
 }
 

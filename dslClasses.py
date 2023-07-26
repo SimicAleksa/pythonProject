@@ -46,7 +46,14 @@ class Region:
         for item in self.items:
             items += item.name + ", "
         items = items[:-2]
-        return f'{self.properties["PortrayalProperties"]}. Inside you see {items}. '
+        return f'You are in {self.properties["PortrayalProperties"]}. Inside you see {items}. '
+
+    def print_self_for_stable(self):
+        items = ""
+        for item in self.items:
+            items += item.name + ", "
+        items = items[:-2]
+        return f'{self.properties["PortrayalProperties"]} with the following items inside: {items}. '
 
 
 class Item:
@@ -158,10 +165,10 @@ class Player:
                         region.requirements = None
                         self.position = region
                     else:
-                        return "Requirements not matched. You neeed a " + region.requirements
-            return "You moved to " + self.position.name
+                        return "Requirements not matched. You neeed a " + region.requirements, False
+            return "You moved to " + self.position.name,True
         else:
-            return "You can't go that way."
+            return "You can't go that way.", False
 
     def print_self(self):
         inventory = ""

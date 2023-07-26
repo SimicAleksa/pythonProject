@@ -60,13 +60,14 @@ class GamePlayFrame(ttk.Frame):
         self.input_entry.bind("<Return>", self.process_user_input)
 
         # Display the image (replace the 'generate_image' function with your image generation code)
-        self.image_label = tk.Label(self, width=512, height=400)
+        self.image_label = tk.Label(self, width=512, height=512)
         self.image_label.pack()
-        self.generate_image(self.gameWorld.regions[0].print_self())  # Call your image generation function here
+        self.generate_image(self.gameWorld.regions[0].print_self_for_stable())  # Call your image generation function here
 
     def generate_image(self, prompt):
         # with autocast(device):
-        image = pipeline(prompt.lower(), height=400, width=512).images[0]
+        print(prompt)
+        image = pipeline(prompt.lower(),width=512, height=512).images[0]
         image.save('generatedImg.png')
         self.img = ImageTk.PhotoImage(image)
         # self.img = ImageTk.PhotoImage(file="512Img.png")
@@ -90,13 +91,16 @@ class GamePlayFrame(ttk.Frame):
                 self.text_area.delete("1.0", tk.END)
                 self.text_area.insert("1.0", "THE END")
                 the_end = True
+                self.img = ImageTk.PhotoImage(file="theEnd.jpg")
+                self.image_label['image'] = self.img
 
         if user_input in ["move N", "move E", "move S", "move W"] and not the_end:
             direction = user_input[-1]
-            text = self.gameWorld.player.move(direction, self.gameWorld)
+            text,moved = self.gameWorld.player.move(direction, self.gameWorld)
             self.text_area.insert("end", '\n' + text)
             self.text_area.insert("end", '\n' + self.gameWorld.player.print_self())
-            self.generate_image(self.gameWorld.player.print_self())
+            if moved:
+                self.generate_image(self.gameWorld.player.position.print_self_for_stable())
         elif "take" in user_input and not the_end:
             item = user_input[5:]
             text = self.gameWorld.player.take(item, self.gameWorld)
