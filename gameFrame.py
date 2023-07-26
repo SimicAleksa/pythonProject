@@ -96,6 +96,7 @@ class GamePlayFrame(ttk.Frame):
             text = self.gameWorld.player.move(direction, self.gameWorld)
             self.text_area.insert("end", '\n' + text)
             self.text_area.insert("end", '\n' + self.gameWorld.player.print_self())
+            self.generate_image(self.gameWorld.player.print_self())
         elif "take" in user_input and not the_end:
             item = user_input[5:]
             text = self.gameWorld.player.take(item, self.gameWorld)
