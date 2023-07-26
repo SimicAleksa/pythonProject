@@ -8,6 +8,9 @@ from hugging_face import access_token
 import torch
 from torch import autocast
 from diffusers import StableDiffusionPipeline
+import os
+
+SDV5_MODEL_PATH = os.getenv('SDV5_MODEL_PATH')
 
 possible_commands = [
     "move N",
@@ -24,10 +27,14 @@ possible_commands = [
 help_message = "Possible commands:\n" + "\n".join(possible_commands)
 modelid = "CompVis/stable-diffusion-v1-4"
 device = "cuda"
-pipeline = StableDiffusionPipeline.from_pretrained(modelid, revision="fp16", safety_checker=None,
-                                                   requires_safety_checker=False,
-                                                   torch_dtype=torch.float16, use_auth_token=access_token)
-pipeline.to(device)
+# pipeline = StableDiffusionPipeline.from_pretrained(modelid, revision="fp16", safety_checker=None,
+#                                                    requires_safety_checker=False,
+#                                                    torch_dtype=torch.float16, use_auth_token=access_token)
+print(SDV5_MODEL_PATH)
+pipeline = StableDiffusionPipeline.from_pretrained(SDV5_MODEL_PATH, safety_checker=None,
+                                                   requires_safety_checker=False)
+# pipeline.to(device)
+pipeline.enable_sequential_cpu_offload()
 
 
 class GamePlayFrame(ttk.Frame):
@@ -45,11 +52,6 @@ class GamePlayFrame(ttk.Frame):
         self.text_area.pack(pady=10)
         self.text_area.insert("1.0", self.gameWorld.regions[0].print_self())  # Replace with parsed text
 
-        # Display the image (replace the 'generate_image' function with your image generation code)
-        self.image_label = ctk.CTkLabel(self,height=512, width=512)
-        self.image_label.place(x=10, y=110)
-        self.generate_image(self.gameWorld.regions[0].print_self())  # Call your image generation function here
-
         # Input area for user interaction
         self.input_label = ttk.Label(self, text="Type your commands:")
         self.input_label.pack(pady=5)
@@ -57,11 +59,18 @@ class GamePlayFrame(ttk.Frame):
         self.input_entry.pack(pady=5)
         self.input_entry.bind("<Return>", self.process_user_input)
 
+        # Display the image (replace the 'generate_image' function with your image generation code)
+        self.image_label = tk.Label(self, width=512, height=400)
+        self.image_label.pack()
+        self.generate_image(self.gameWorld.regions[0].print_self())  # Call your image generation function here
+
     def generate_image(self, prompt):
-        with autocast(device):
-            image = pipeline(prompt.lower(), guidance_scale=6.5)["sample"][0]
-        img = ImageTk.PhotoImage(image)
-        self.image_label.configure(image=img)
+        # with autocast(device):
+        image = pipeline(prompt.lower(), height=400, width=512).images[0]
+        image.save('generatedImg.png')
+        self.img = ImageTk.PhotoImage(image)
+        # self.img = ImageTk.PhotoImage(file="512Img.png")
+        self.image_label['image'] = self.img
 
     def display_help(self):
         self.text_area.insert("end", "\n\n" + help_message + "\n\n")
