@@ -12,7 +12,7 @@ class App:
         self.play_frame = ttk.Frame(self.root)
 
         window_width = 800
-        window_height = 950
+        window_height = 985
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         x = (screen_width - window_width) // 2
@@ -44,6 +44,11 @@ class App:
         self.play_button = ttk.Button(self.library_frame, text="Play", command=self.show_play_frame)
         self.play_button.pack(pady=10)
 
+        self.with_images_var = tk.BooleanVar()
+        self.with_images_checkbox = ttk.Checkbutton(self.library_frame, text="With Images",
+                                                    variable=self.with_images_var)
+        self.with_images_checkbox.pack(pady=10)
+
         self.show_start_frame()
 
         self.root.mainloop()
@@ -58,7 +63,8 @@ class App:
             with open(selected_game, "r") as file:
                 content = file.read()
             self.library_frame.pack_forget()
-            self.play_frame = GamePlayFrame(self.root, selected_game, content)
+            with_images = self.with_images_var.get()
+            self.play_frame = GamePlayFrame(self.root, selected_game, content,with_images)
             self.play_frame.pack()
 
     def show_start_frame(self):
