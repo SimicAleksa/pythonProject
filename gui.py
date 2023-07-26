@@ -32,7 +32,7 @@ class App:
 
         self.load_library()
 
-        self.text_area = tk.Text(self.fiction_frame, wrap=tk.WORD, width=100, height=30)
+        self.text_area = tk.Text(self.fiction_frame, wrap=tk.WORD, width=90, height=50)
         self.text_area.pack(pady=10)
 
         self.fiction_type = tk.StringVar()
@@ -97,10 +97,25 @@ class App:
     def on_game_selected(self, is_loaded):
         if self.fiction_type.get() == "game" and is_loaded:
             self.text_area.delete("1.0", "end")
-            self.text_area.insert("1.0",
-                                  "(Region) { description ...}\n[Object] { description ...}\n(Player) { "
-                                  "properties...}\nstart_position [Region]\n"
-                                  "final_position [Region]")
+            data = """<Region> {
+    properties...
+    connections...
+    requirements...
+}
+
+[Item] {
+    properties...
+    isStatic...
+}
+
+(Player) {
+    properties...
+}
+
+start_position [Region]
+final_position [Region]
+            """
+            self.text_area.insert("1.0",data)
 
     def load_library(self):
         self.library_frame = ttk.Frame(self.root)
