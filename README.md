@@ -21,9 +21,11 @@ Pokrenuti main.py
 
 ## Zavisnosti
 
-- stable-diffusion-v1-5
-- diffusers
-- torch
-. 
-.
-.
+- stable-diffusion-v1-5 lokalno instaliran
+- Pillow~=10.0.0
+- diffusers~=0.19.0
+- textX~=3.1.1
+- pip install transformers
+- pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+  (gpu sa CUDA jezgrima)
+- pip install accelerate
