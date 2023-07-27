@@ -17,7 +17,10 @@
 
 ## Uputstvo za pokretanje projekta
 
-Pokrenuti main.py
+- Pokrenuti main.py
+- Za pregled svih igara i biranje za igranje birate Library
+- Za kreiranje novih IF igrica birate CreateFiction
+- Ukoliko nemate Stable Diffusion instaliran lokalno cheackbox za igranje sa slikama ostavite u neotkacenom stanju
 
 ## Zavisnosti
 
