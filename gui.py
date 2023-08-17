@@ -60,7 +60,8 @@ class App:
 
         selected_game = self.games_listbox.get(tk.ACTIVE)
         if selected_game:
-            with open(selected_game, "r") as file:
+            games_directory = "games/" + selected_game + "/" + selected_game
+            with open(games_directory, "r") as file:
                 content = file.read()
             self.library_frame.pack_forget()
             with_images = self.with_images_var.get()
@@ -129,7 +130,8 @@ final_position [Region]
         self.load_button.pack(pady=10)
 
     def load_games(self):
-        saved_files = [f for f in os.listdir() if f.endswith(".game")]
+        games_directory = "games"
+        saved_files = [f for f in os.listdir(os.path.join(os.getcwd(), games_directory)) if f.endswith(".game")]
         self.games_listbox.delete(0, tk.END)
         for saved_file in saved_files:
             self.games_listbox.insert(tk.END, saved_file)
@@ -137,7 +139,9 @@ final_position [Region]
     def load_selected_game(self):
         selected_game = self.games_listbox.get(tk.ACTIVE)
         if selected_game:
-            with open(selected_game, "r") as file:
+            games_directory = "games/" + selected_game
+            game_path = os.path.join(games_directory, selected_game)
+            with open(game_path, "r") as file:
                 content = file.read()
                 self.text_area.delete("1.0", tk.END)
                 self.text_area.insert("1.0", content)

@@ -1,0 +1,23 @@
+<Region> {
+    properties...
+    connections...
+    requirements...
+}
+
+[Item] {
+    properties...
+    isStatic...
+}
+
+(Player) {
+    properties...
+}
+
+start_position [Region]
+final_position [Region]
+
+            dsa
+            dsa
+            das
+            das
+            dsa
