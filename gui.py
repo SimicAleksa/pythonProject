@@ -4,6 +4,7 @@ import os
 
 from gameFrame import GamePlayFrame
 from pictureCreatorFrame import PictureCreatorFrame
+from codeEditorFrame import CodeEditorFrame
 
 
 class App:
@@ -87,7 +88,10 @@ class App:
         self.library_frame.pack_forget()
         self.play_frame.pack_forget()
         self.picture_creator_frame.pack_forget()
-        self.fiction_frame.pack()
+        ##TODO
+        ###########################################
+        # self.fiction_frame.pack()
+        ############################################
         self.on_game_selected(is_loaded)
         self.load_games()
 
@@ -106,6 +110,14 @@ class App:
                 file.write(self.text_area.get("1.0", "end-1c"))
 
     def on_game_selected(self, is_loaded):
+        ##TODO
+        ####################################
+
+        self.fiction_frame = CodeEditorFrame(self.root)
+        self.fiction_frame.pack()
+
+        ####################################
+
         messagebox.showinfo("Information", "Steps when saving your game: \n 1) Create a new folder with the same name "
                                            "as your game (\"simplegame.game\") inside the games folder \n 2) Save "
                                            "your game inside the folder you just created \n ("
