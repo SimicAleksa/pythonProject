@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, filedialog
+from tkinter import ttk, filedialog, messagebox
 import os
 
 from gameFrame import GamePlayFrame
@@ -106,6 +106,11 @@ class App:
                 file.write(self.text_area.get("1.0", "end-1c"))
 
     def on_game_selected(self, is_loaded):
+        messagebox.showinfo("Information", "Steps when saving your game: \n 1) Create a new folder with the same name "
+                                           "as your game (\"simplegame.game\") inside the games folder \n 2) Save "
+                                           "your game inside the folder you just created \n ("
+                                           "\"games/simplegame.game/simplegame.game\") should be the path to your "
+                                           "game code")
         if self.fiction_type.get() == "game" and is_loaded:
             self.text_area.delete("1.0", "end")
             data = """<Region> {
