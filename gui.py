@@ -13,7 +13,7 @@ class App:
         self.play_frame = ttk.Frame(self.root)
         self.picture_creator_frame = ttk.Frame(self.root)
 
-        window_width = 800
+        window_width = 1200
         window_height = 985
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
