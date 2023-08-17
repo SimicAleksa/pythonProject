@@ -3,6 +3,7 @@ from tkinter import ttk, filedialog
 import os
 
 from gameFrame import GamePlayFrame
+from pictureCreatorFrame import PictureCreatorFrame
 
 
 class App:
@@ -10,6 +11,7 @@ class App:
         self.root = tk.Tk()
         self.root.title("Interactive Fiction Creator")
         self.play_frame = ttk.Frame(self.root)
+        self.picture_creator_frame = ttk.Frame(self.root)
 
         window_width = 800
         window_height = 985
@@ -17,7 +19,7 @@ class App:
         screen_height = self.root.winfo_screenheight()
         x = (screen_width - window_width) // 2
         y = (screen_height - window_height) // 2
-        self.root.geometry(f"{window_width}x{window_height}+{x}+{y-50}")
+        self.root.geometry(f"{window_width}x{window_height}+{x}+{y - 50}")
 
         self.navbar = tk.Menu(self.root)
         self.root.config(menu=self.navbar)
@@ -44,6 +46,10 @@ class App:
         self.play_button = ttk.Button(self.library_frame, text="Play", command=self.show_play_frame)
         self.play_button.pack(pady=10)
 
+        self.picture_creator_button = ttk.Button(self.library_frame, text="Picture creator",
+                                                 command=self.show_picture_creator_frame)
+        self.picture_creator_button.pack(pady=10)
+
         self.with_images_var = tk.BooleanVar()
         self.with_images_checkbox = ttk.Checkbutton(self.library_frame, text="With Images",
                                                     variable=self.with_images_var)
@@ -57,6 +63,7 @@ class App:
         self.fiction_frame.pack_forget()
         self.library_frame.pack_forget()
         self.start_frame.pack_forget()
+        self.picture_creator_frame.pack_forget()
 
         selected_game = self.games_listbox.get(tk.ACTIVE)
         if selected_game:
@@ -65,19 +72,21 @@ class App:
                 content = file.read()
             self.library_frame.pack_forget()
             with_images = self.with_images_var.get()
-            self.play_frame = GamePlayFrame(self.root, selected_game, content,with_images)
+            self.play_frame = GamePlayFrame(self.root, selected_game, content, with_images)
             self.play_frame.pack()
 
     def show_start_frame(self):
         self.fiction_frame.pack_forget()
         self.library_frame.pack_forget()
         self.play_frame.pack_forget()
+        self.picture_creator_frame.pack_forget()
         self.start_frame.pack()
 
     def show_fiction_frame(self, is_loaded):
         self.start_frame.pack_forget()
         self.library_frame.pack_forget()
         self.play_frame.pack_forget()
+        self.picture_creator_frame.pack_forget()
         self.fiction_frame.pack()
         self.on_game_selected(is_loaded)
         self.load_games()
@@ -86,6 +95,7 @@ class App:
         self.start_frame.pack_forget()
         self.play_frame.pack_forget()
         self.fiction_frame.pack_forget()
+        self.picture_creator_frame.pack_forget()
         self.library_frame.pack()
 
     def save_fiction(self):
@@ -116,7 +126,7 @@ class App:
 start_position [Region]
 final_position [Region]
             """
-            self.text_area.insert("1.0",data)
+            self.text_area.insert("1.0", data)
 
     def load_library(self):
         self.library_frame = ttk.Frame(self.root)
@@ -126,8 +136,21 @@ final_position [Region]
 
         self.load_games()
 
-        self.load_button = ttk.Button(self.library_frame, text="Load", command=self.load_selected_game)
+        self.load_button = ttk.Button(self.library_frame, text="Load code", command=self.load_selected_game)
         self.load_button.pack(pady=10)
+
+    def show_picture_creator_frame(self):
+        self.fiction_frame.pack_forget()
+        self.library_frame.pack_forget()
+        self.start_frame.pack_forget()
+        self.play_frame.pack_forget()
+
+        selected_game = self.games_listbox.get(tk.ACTIVE)
+        if selected_game:
+            games_directory = "games/" + selected_game
+            self.library_frame.pack_forget()
+            self.picture_creator_frame = PictureCreatorFrame(self.root, games_directory, selected_game)
+            self.picture_creator_frame.pack()
 
     def load_games(self):
         games_directory = "games"
