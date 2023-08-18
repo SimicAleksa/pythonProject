@@ -3,31 +3,70 @@ from tkinter import *
 import ctypes
 import re
 import os
+from tkinter import *
+import ctypes
+import re
+import os
 from functools import partial
 
 from tkinter import ttk
-
-ctypes.windll.shcore.SetProcessDpiAwareness(True)
 
 
 class CodeEditorFrame(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
 
-        # adding scrollbar
-        scrollbar = Scrollbar(self)
+        ctypes.windll.shcore.SetProcessDpiAwareness(True)
 
-        # packing scrollbar
-        scrollbar.pack(side=RIGHT,
-                       fill=Y)
+        self.previousText = ''
 
-        self.text_info = Text(self,
-                         yscrollcommand=scrollbar.set)
-        self.text_info.pack(fill=BOTH)
+        # Define colors for the variouse types of tokens
+        region = self.rgb((0, 204, 0))
+        item = self.rgb((153, 102, 51))
+        positions = self.rgb((0, 204, 255))
+        player = self.rgb((255, 51, 204))
+        normal = self.rgb((234, 234, 234))
+        keywords = self.rgb((234, 95, 95))
+        comments = self.rgb((95, 234, 165))
+        string = self.rgb((234, 162, 95))
+        function = self.rgb((95, 211, 234))
+        background = self.rgb((42, 42, 42))
+        font = 'Consolas 15'
 
-        # configuring the scrollbar
-        scrollbar.config(command=self.text_info.yview)
-        data = """<Region> {
+        # Define a list of Regex Pattern that should be colored in a certain way
+        self.repl = [
+            ['False|True',keywords],
+            ['start_position|final_position', positions],
+            ['\(.*?\)', player],
+            ['".*?"', string],
+            ['<.*?>', region],
+            ['\[.*?\]', item],
+            ['\'.*?\'', string],
+            ['#.*?$', comments],
+        ]
+
+        # Make the Text Widget
+        # Add a hefty border width so we can achieve a little bit of padding
+        self.editArea = Text(
+            self,
+            background=background,
+            foreground=normal,
+            insertbackground=normal,
+            relief=FLAT,
+            borderwidth=30,
+            font=font,
+            height= 35,
+            width= 104
+        )
+
+        # Place the Edit Area with the pack method
+        self.editArea.pack(
+            fill=BOTH,
+            expand=1
+        )
+
+        # Insert some Standard Text into the Edit Area
+        self.editArea.insert('1.0', """<Region> {
     properties...
     connections...
     requirements...
@@ -42,35 +81,60 @@ class CodeEditorFrame(ttk.Frame):
     properties...
 }
 
-start_position [Region]
-final_position [Region]
-                    """
-        self.text_info.insert("1.0", data)
-        # Bind arrow key events
-        self.text_info.bind("<Up>", self.move_cursor_up)
-        self.text_info.bind("<Down>", self.move_cursor_down)
+start_position Region
+final_position Region
+        """)
 
-        self.current_cursor_position = self.text_info.index(tk.CURRENT)
+        # Bind the KeyRelase to the Changes Function
+        self.editArea.bind('<KeyRelease>', self.changes)
 
-    def move_cursor_up(self, event):
-        new_cursor_position = self.text_info.index(f"{self.current_cursor_position} linestart - 1 line")
-        if new_cursor_position != "1.0":
-            self.current_cursor_position = new_cursor_position
-            self.highlight_selected_line(self.current_cursor_position)
+        # Bind Control + R to the exec function
+        self.bind('<Control-r>', self.execute)
 
-    def move_cursor_down(self, event):
-        # Check if Enter key is pressed
-        if event.keysym == "Return":
-            new_cursor_position = self.text_info.index(f"{self.current_cursor_position} lineend + 1 line")
-        else:
-            new_cursor_position = self.text_info.index(f"{self.current_cursor_position} lineend + 1 line")
+        self.changes()
 
-        last_line = self.text_info.index("end-1c linestart")
-        if new_cursor_position != last_line:
-            self.current_cursor_position = new_cursor_position
-            self.highlight_selected_line(self.current_cursor_position)
+    # Execute the Programm
+    def execute(self,event=None):
 
-    def highlight_selected_line(self, cursor_position):
-        self.text_info.tag_remove("selected_row", "1.0", "end")
-        self.text_info.tag_add("selected_row", f"{cursor_position} linestart", f"{cursor_position} lineend + 1 char")
-        self.text_info.tag_configure("selected_row", background="lightgray")
+        # Write the Content to the Temporary File
+        with open('run.py', 'w', encoding='utf-8') as f:
+            f.write(self.editArea.get('1.0', END))
+
+        # Start the File in a new CMD Window
+        os.system('start cmd /K "python run.py"')
+
+    # Register Changes made to the Editor Content
+    def changes(self,event=None):
+        # If actually no changes have been made stop / return the function
+        if self.editArea.get('1.0', END) == self.previousText:
+            return
+
+        # Remove all tags so they can be redrawn
+        for tag in self.editArea.tag_names():
+            self.editArea.tag_remove(tag, "1.0", "end")
+
+        # Add tags where the search_re function found the pattern
+        i = 0
+        for pattern, color in self.repl:
+            for start, end in self.search_re(pattern, self.editArea.get('1.0', END)):
+                self.editArea.tag_add(f'{i}', start, end)
+                self.editArea.tag_config(f'{i}', foreground=color)
+
+                i += 1
+
+        self.previousText = self.editArea.get('1.0', END)
+
+    def search_re(self,pattern, text, groupid=0):
+        matches = []
+
+        text = text.splitlines()
+        for i, line in enumerate(text):
+            for match in re.finditer(pattern, line):
+                matches.append(
+                    (f"{i + 1}.{match.start()}", f"{i + 1}.{match.end()}")
+                )
+
+        return matches
+
+    def rgb(self,rgb):
+        return "#%02x%02x%02x" % rgb
