@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from gameInterpeter import parse_dsl
 from PIL import ImageTk
 from PIL import Image
@@ -25,8 +25,11 @@ class GamePlayFrame(ttk.Frame):
     def __init__(self, parent, game_title, game_content, with_images):
         super().__init__(parent)
 
-
-        self.gameWorld = parse_dsl("gameWorldDSL.tx", game_title)
+        try:
+            self.gameWorld = parse_dsl("gameWorldDSL.tx", game_title)
+        except:
+            messagebox.showinfo("Information", "Game code is invalid. You need to verify it.")
+            return
 
         frame_title_label = ttk.Label(self, text=game_title[:-5], font=("Arial", 14, "bold"))
         frame_title_label.pack(pady=10)

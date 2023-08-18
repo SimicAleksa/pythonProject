@@ -20,7 +20,12 @@ class PictureCreatorFrame(ttk.Frame):
     def __init__(self, parent, games_directory, selected_game):
         super().__init__(parent)
         self.default_img = Image.open("games/noImg.png")
-        self.gameWorld = parse_dsl("gameWorldDSL.tx", games_directory + "/" + selected_game)
+        try:
+            self.gameWorld = parse_dsl("gameWorldDSL.tx", selected_game)
+        except:
+            messagebox.showinfo("Information", "Game code is invalid. You need to verify it.")
+            return
+
         self.counter = -1
         self.next_region_button = tk.Button(self, text="Next region", command=partial(self.generate_next_region, games_directory))
         self.next_region_button.grid(row=6, column=1, columnspan=2, padx=10, pady=10)

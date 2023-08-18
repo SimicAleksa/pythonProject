@@ -1,0 +1,24 @@
+<Region> {
+    portrayal...
+    requirements...
+}
+
+[Item] {
+    portrayal...
+    isStatic...
+}
+
+(Player) {
+    portrayal...
+}
+
+start_position Region
+final_position Region
+            
+xc
+c
+cc
+c
+c
+
+sd
