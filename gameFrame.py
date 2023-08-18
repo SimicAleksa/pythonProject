@@ -47,7 +47,11 @@ class GamePlayFrame(ttk.Frame):
             self.generate_image(self.gameWorld.regions[0].name,game_title)
 
     def generate_image(self, region_name,game_title):
-        self.img_fromPipe = Image.open("games/"+game_title+"/"+region_name+".png")
+        image_path = os.path.join("games", game_title, region_name + ".png")
+        if os.path.exists(image_path):
+            self.img_fromPipe = Image.open(image_path)
+        else:
+            self.img_fromPipe = Image.open("games/noImg.png")
         self.img = self.img_fromPipe.resize((512, 512))
         self.img = ImageTk.PhotoImage(self.img)
         self.image_label.config(image=self.img)
