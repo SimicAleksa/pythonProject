@@ -9,10 +9,14 @@ from PIL import Image
 from diffusers import StableDiffusionPipeline
 import os
 
-SDV5_MODEL_PATH = os.getenv('SDV5_MODEL_PATH')
-
-pipeline = StableDiffusionPipeline.from_pretrained(SDV5_MODEL_PATH, safety_checker=None,
+try:
+    SDV5_MODEL_PATH = os.getenv('SDV5_MODEL_PATH')
+    pipeline = StableDiffusionPipeline.from_pretrained(SDV5_MODEL_PATH, safety_checker=None,
                                                    requires_safety_checker=False)
+except:
+    pipeline = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", safety_checker=None,
+                                                       requires_safety_checker=False, use_auth_token="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")
+
 pipeline.enable_sequential_cpu_offload()
 
 
