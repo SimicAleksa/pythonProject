@@ -8,6 +8,7 @@ import ctypes
 import re
 import os
 from functools import partial
+import tkinter.font as tkfont
 
 from tkinter import ttk
 
@@ -26,22 +27,23 @@ class CodeEditorFrame(ttk.Frame):
         positions = self.rgb((0, 204, 255))
         player = self.rgb((255, 51, 204))
         normal = self.rgb((234, 234, 234))
-        keywords = self.rgb((234, 95, 95))
+        trueFalse = self.rgb((234, 95, 95))
         comments = self.rgb((95, 234, 165))
         string = self.rgb((234, 162, 95))
+        commonwords= self.rgb((102, 102, 255))
         function = self.rgb((95, 211, 234))
         background = self.rgb((42, 42, 42))
         font = 'Consolas 15'
 
         # Define a list of Regex Pattern that should be colored in a certain way
         self.repl = [
-            ['False|True',keywords],
-            ['start_position|final_position', positions],
+            ['(^| )(False|True)', trueFalse],
+            ['(^| )(start_position|final_position)', positions],
             ['\(.*?\)', player],
-            ['".*?"', string],
             ['<.*?>', region],
             ['\[.*?\]', item],
-            ['\'.*?\'', string],
+            ['(^| )(portrayal|contains|N|S|W|E|requirements|isStatic|activation|health|heal|score|inventory|position)', commonwords],
+            ['".*?"', string],
             ['#.*?$', comments],
         ]
 
@@ -55,56 +57,43 @@ class CodeEditorFrame(ttk.Frame):
             relief=FLAT,
             borderwidth=30,
             font=font,
-            height= 35,
-            width= 104
+            height=35,
+            width=104
         )
 
-        # Place the Edit Area with the pack method
+        font_for_tab = tkfont.Font(font=self.editArea['font'])
+        tab_size = font_for_tab.measure('    ')
+        self.editArea.config(tabs=tab_size)
+
         self.editArea.pack(
             fill=BOTH,
             expand=1
         )
 
-        # Insert some Standard Text into the Edit Area
         self.editArea.insert('1.0', """<Region> {
-    properties...
-    connections...
+    portrayal...
     requirements...
 }
 
 [Item] {
-    properties...
+    portrayal...
     isStatic...
 }
 
 (Player) {
-    properties...
+    portrayal...
 }
 
 start_position Region
 final_position Region
         """)
 
-        # Bind the KeyRelase to the Changes Function
         self.editArea.bind('<KeyRelease>', self.changes)
-
-        # Bind Control + R to the exec function
-        self.bind('<Control-r>', self.execute)
 
         self.changes()
 
-    # Execute the Programm
-    def execute(self,event=None):
-
-        # Write the Content to the Temporary File
-        with open('run.py', 'w', encoding='utf-8') as f:
-            f.write(self.editArea.get('1.0', END))
-
-        # Start the File in a new CMD Window
-        os.system('start cmd /K "python run.py"')
-
     # Register Changes made to the Editor Content
-    def changes(self,event=None):
+    def changes(self, event=None):
         # If actually no changes have been made stop / return the function
         if self.editArea.get('1.0', END) == self.previousText:
             return
@@ -124,17 +113,15 @@ final_position Region
 
         self.previousText = self.editArea.get('1.0', END)
 
-    def search_re(self,pattern, text, groupid=0):
+    def search_re(self, pattern, text):
         matches = []
 
         text = text.splitlines()
         for i, line in enumerate(text):
             for match in re.finditer(pattern, line):
-                matches.append(
-                    (f"{i + 1}.{match.start()}", f"{i + 1}.{match.end()}")
-                )
+                matches.append((f"{i + 1}.{match.start()}", f"{i + 1}.{match.end()}"))
 
         return matches
 
-    def rgb(self,rgb):
+    def rgb(self, rgb):
         return "#%02x%02x%02x" % rgb
