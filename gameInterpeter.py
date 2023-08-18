@@ -15,7 +15,7 @@ def parse_dsl(dsl_path, game_path):
     dsl_mm = metamodel_from_file(join(this_folder, dsl_path))
 
     # Parse the DSL file and create the GameWorld
-    model = dsl_mm.model_from_file(join(this_folder, game_path))
+    model = dsl_mm.model_from_file(join(this_folder+"\\games\\"+game_path, game_path))
 
     game_world = GameWorld()
 
