@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, filedialog, messagebox
+from tkinter import ttk, messagebox
 import os
 
 from gameFrame import GamePlayFrame
@@ -25,7 +25,7 @@ class App:
         self.navbar = tk.Menu(self.root)
         self.root.config(menu=self.navbar)
         self.navbar.add_command(label="Start", command=self.show_start_frame)
-        self.navbar.add_command(label="Create Fiction", command=lambda: self.show_fiction_frame(True))
+        self.navbar.add_command(label="Create Fiction", command=lambda: self.show_fiction_frame(None))
         self.navbar.add_command(label="Library", command=self.show_library_frame)
 
         self.start_frame = ttk.Frame(self.root)
@@ -41,8 +41,6 @@ class App:
         self.fiction_type = tk.StringVar()
         self.fiction_type.set("game")
 
-        self.save_button = ttk.Button(self.fiction_frame, text="Save", command=self.save_fiction)
-        self.save_button.pack(pady=10)
 
         self.play_button = ttk.Button(self.library_frame, text="Play", command=self.show_play_frame)
         self.play_button.pack(pady=10)
@@ -83,16 +81,13 @@ class App:
         self.picture_creator_frame.pack_forget()
         self.start_frame.pack()
 
-    def show_fiction_frame(self, is_loaded):
+    def show_fiction_frame(self,content=None):
+        self.fiction_frame.pack_forget()
         self.start_frame.pack_forget()
         self.library_frame.pack_forget()
         self.play_frame.pack_forget()
         self.picture_creator_frame.pack_forget()
-        ##TODO
-        ###########################################
-        # self.fiction_frame.pack()
-        ############################################
-        self.on_game_selected(is_loaded)
+        self.on_game_selected(content)
         self.load_games()
 
     def show_library_frame(self):
@@ -102,48 +97,16 @@ class App:
         self.picture_creator_frame.pack_forget()
         self.library_frame.pack()
 
-    def save_fiction(self):
-        file_path = filedialog.asksaveasfilename(defaultextension=".game",
-                                                 filetypes=[("IF_Game Files", "*.game"), ("All Files", "*.*")])
-        if file_path:
-            with open(file_path, "w") as file:
-                file.write(self.text_area.get("1.0", "end-1c"))
 
-    def on_game_selected(self, is_loaded):
-        ##TODO
-        ####################################
-
-        self.fiction_frame = CodeEditorFrame(self.root)
+    def on_game_selected(self,content=None):
+        self.fiction_frame = CodeEditorFrame(self.root,content)
         self.fiction_frame.pack()
-
-        ####################################
-
-        messagebox.showinfo("Information", "Steps when saving your game: \n 1) Create a new folder with the same name "
-                                           "as your game (\"simplegame.game\") inside the games folder \n 2) Save "
-                                           "your game inside the folder you just created \n ("
-                                           "\"games/simplegame.game/simplegame.game\") should be the path to your "
-                                           "game code")
-        if self.fiction_type.get() == "game" and is_loaded:
-            self.text_area.delete("1.0", "end")
-            data = """<Region> {
-    properties...
-    connections...
-    requirements...
-}
-
-[Item] {
-    properties...
-    isStatic...
-}
-
-(Player) {
-    properties...
-}
-
-start_position [Region]
-final_position [Region]
-            """
-            self.text_area.insert("1.0", data)
+        if content is None:
+            messagebox.showinfo("Information", "Steps when saving your game: \n 1) Create a new folder with the same name "
+                                               "as your game (\"simplegame.game\") inside the games folder \n 2) Save "
+                                               "your game inside the folder you just created \n ("
+                                               "\"games/simplegame.game/simplegame.game\") should be the path to your "
+                                               "game code")
 
     def load_library(self):
         self.library_frame = ttk.Frame(self.root)
@@ -183,6 +146,4 @@ final_position [Region]
             game_path = os.path.join(games_directory, selected_game)
             with open(game_path, "r") as file:
                 content = file.read()
-                self.text_area.delete("1.0", tk.END)
-                self.text_area.insert("1.0", content)
-                self.show_fiction_frame(False)
+                self.show_fiction_frame(content)
