@@ -1,13 +1,6 @@
-import tkinter as tk
 from tkinter import *
 import ctypes
 import re
-import os
-from tkinter import *
-import ctypes
-import re
-import os
-from functools import partial
 import tkinter.font as tkfont
 
 from tkinter import ttk
@@ -30,8 +23,7 @@ class CodeEditorFrame(ttk.Frame):
         trueFalse = self.rgb((234, 95, 95))
         comments = self.rgb((95, 234, 165))
         string = self.rgb((234, 162, 95))
-        commonwords= self.rgb((102, 102, 255))
-        function = self.rgb((95, 211, 234))
+        commonwords = self.rgb((153, 102, 255))
         background = self.rgb((42, 42, 42))
         font = 'Consolas 15'
 
@@ -42,13 +34,12 @@ class CodeEditorFrame(ttk.Frame):
             ['\(.*?\)', player],
             ['<.*?>', region],
             ['\[.*?\]', item],
-            ['(^| )(portrayal|contains|N|S|W|E|requirements|isStatic|activation|health|heal|score|inventory|position)', commonwords],
+            ['(^| )(portrayal|contains|N|S|W|E|requirements|isStatic|activation|health|heal|score|inventory|position)',
+             commonwords],
             ['".*?"', string],
             ['#.*?$', comments],
         ]
 
-        # Make the Text Widget
-        # Add a hefty border width so we can achieve a little bit of padding
         self.editArea = Text(
             self,
             background=background,
@@ -112,6 +103,16 @@ final_position Region
                 i += 1
 
         self.previousText = self.editArea.get('1.0', END)
+        self.editArea.tag_configure("current_line", background="#363535")
+        self.editArea.tag_raise("sel", "current_line")
+        self._highlight_current_line()
+
+    def _highlight_current_line(self, interval=100):
+        if not self.editArea.winfo_exists():
+            return
+        self.editArea.tag_remove("current_line", "1.0", "end")
+        self.editArea.tag_add("current_line", "insert linestart", "insert lineend+1c")
+        self.after(100, self._highlight_current_line, 100)
 
     def search_re(self, pattern, text):
         matches = []
