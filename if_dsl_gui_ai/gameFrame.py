@@ -53,7 +53,7 @@ class GamePlayFrame(ttk.Frame):
         if os.path.exists(image_path):
             self.img_fromPipe = Image.open(image_path)
         else:
-            self.img_fromPipe = Image.open("if_dsl_gui_ai/games/noImg.png")
+            self.img_fromPipe = Image.open("if_dsl_gui_ai/noImg.png")
         self.img = self.img_fromPipe.resize((512, 512))
         self.img = ImageTk.PhotoImage(self.img)
         self.image_label.config(image=self.img)

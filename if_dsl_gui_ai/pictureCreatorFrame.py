@@ -25,7 +25,7 @@ pipeline.enable_sequential_cpu_offload()
 class PictureCreatorFrame(ttk.Frame):
     def __init__(self, parent, games_directory, selected_game):
         super().__init__(parent)
-        self.default_img = Image.open("if_dsl_gui_ai/games/noImg.png")
+        self.default_img = Image.open("if_dsl_gui_ai/noImg.png")
         try:
             self.gameWorld = parse_dsl("gameWorldDSL.tx", selected_game)
         except:
@@ -69,10 +69,10 @@ class PictureCreatorFrame(ttk.Frame):
                 self.image_label3.grid(row=4, column=1)
 
                 if not os.path.isfile(games_directory + "/" + self.region_name + ".png"):
-                    self.img0_fromPipe = Image.open("if_dsl_gui_ai/games/noImg.png")
-                    self.img1_fromPipe = Image.open("if_dsl_gui_ai/games/noImg.png")
-                    self.img2_fromPipe = Image.open("if_dsl_gui_ai/games/noImg.png")
-                    self.img3_fromPipe = Image.open("if_dsl_gui_ai/games/noImg.png")
+                    self.img0_fromPipe = Image.open("if_dsl_gui_ai/noImg.png")
+                    self.img1_fromPipe = Image.open("if_dsl_gui_ai/noImg.png")
+                    self.img2_fromPipe = Image.open("if_dsl_gui_ai/noImg.png")
+                    self.img3_fromPipe = Image.open("if_dsl_gui_ai/noImg.png")
 
                     img0 = self.img0_fromPipe.resize((512, 256))
                     img1 = self.img1_fromPipe.resize((512, 256))
