@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from functools import partial  # zarad okidanja samo kada se klikne dugme
 
-from gameInterpeter import parse_dsl
+from if_dsl_gui_ai.gameInterpeter import parse_dsl
 from PIL import ImageTk
 from PIL import Image
 
@@ -13,9 +13,11 @@ try:
     SDV5_MODEL_PATH = os.getenv('SDV5_MODEL_PATH')
     pipeline = StableDiffusionPipeline.from_pretrained(SDV5_MODEL_PATH, safety_checker=None,
                                                    requires_safety_checker=False)
+    print("Local version")
 except:
     pipeline = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", safety_checker=None,
                                                        requires_safety_checker=False, use_auth_token="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")
+    print("Online version")
 
 pipeline.enable_sequential_cpu_offload()
 
@@ -23,7 +25,7 @@ pipeline.enable_sequential_cpu_offload()
 class PictureCreatorFrame(ttk.Frame):
     def __init__(self, parent, games_directory, selected_game):
         super().__init__(parent)
-        self.default_img = Image.open("games/noImg.png")
+        self.default_img = Image.open("if_dsl_gui_ai/games/noImg.png")
         try:
             self.gameWorld = parse_dsl("gameWorldDSL.tx", selected_game)
         except:
@@ -67,10 +69,10 @@ class PictureCreatorFrame(ttk.Frame):
                 self.image_label3.grid(row=4, column=1)
 
                 if not os.path.isfile(games_directory + "/" + self.region_name + ".png"):
-                    self.img0_fromPipe = Image.open("games/noImg.png")
-                    self.img1_fromPipe = Image.open("games/noImg.png")
-                    self.img2_fromPipe = Image.open("games/noImg.png")
-                    self.img3_fromPipe = Image.open("games/noImg.png")
+                    self.img0_fromPipe = Image.open("if_dsl_gui_ai/games/noImg.png")
+                    self.img1_fromPipe = Image.open("if_dsl_gui_ai/games/noImg.png")
+                    self.img2_fromPipe = Image.open("if_dsl_gui_ai/games/noImg.png")
+                    self.img3_fromPipe = Image.open("if_dsl_gui_ai/games/noImg.png")
 
                     img0 = self.img0_fromPipe.resize((512, 256))
                     img1 = self.img1_fromPipe.resize((512, 256))

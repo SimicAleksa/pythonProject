@@ -2,9 +2,9 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import os
 
-from gameFrame import GamePlayFrame
-from pictureCreatorFrame import PictureCreatorFrame
-from codeEditorFrame import CodeEditorFrame
+from if_dsl_gui_ai.gameFrame import GamePlayFrame
+from if_dsl_gui_ai.pictureCreatorFrame import PictureCreatorFrame
+from if_dsl_gui_ai.codeEditorFrame import CodeEditorFrame
 
 
 class App:
@@ -66,7 +66,7 @@ class App:
 
         selected_game = self.games_listbox.get(tk.ACTIVE)
         if selected_game:
-            games_directory = "games/" + selected_game + "/" + selected_game
+            games_directory = "if_dsl_gui_ai/games/" + selected_game + "/" + selected_game
             with open(games_directory, "r") as file:
                 content = file.read()
             self.library_frame.pack_forget()
@@ -127,13 +127,13 @@ class App:
 
         selected_game = self.games_listbox.get(tk.ACTIVE)
         if selected_game:
-            games_directory = "games/" + selected_game
+            games_directory = "if_dsl_gui_ai/games/" + selected_game
             self.library_frame.pack_forget()
             self.picture_creator_frame = PictureCreatorFrame(self.root, games_directory, selected_game)
             self.picture_creator_frame.pack()
 
     def load_games(self):
-        games_directory = "games"
+        games_directory = "if_dsl_gui_ai/games"
         saved_files = [f for f in os.listdir(os.path.join(os.getcwd(), games_directory)) if f.endswith(".game")]
         self.games_listbox.delete(0, tk.END)
         for saved_file in saved_files:
@@ -142,7 +142,7 @@ class App:
     def load_selected_game(self):
         selected_game = self.games_listbox.get(tk.ACTIVE)
         if selected_game:
-            games_directory = "games/" + selected_game
+            games_directory = "if_dsl_gui_ai/games/" + selected_game
             game_path = os.path.join(games_directory, selected_game)
             with open(game_path, "r") as file:
                 content = file.read()

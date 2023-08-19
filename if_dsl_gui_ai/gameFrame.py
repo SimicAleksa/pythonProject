@@ -1,10 +1,9 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-from gameInterpeter import parse_dsl
+from if_dsl_gui_ai.gameInterpeter import parse_dsl
 from PIL import ImageTk
 from PIL import Image
 
-from diffusers import StableDiffusionPipeline
 import os
 
 possible_commands = [
@@ -50,11 +49,11 @@ class GamePlayFrame(ttk.Frame):
             self.generate_image(self.gameWorld.regions[0].name,game_title)
 
     def generate_image(self, region_name,game_title):
-        image_path = os.path.join("games", game_title, region_name + ".png")
+        image_path = os.path.join("if_dsl_gui_ai/games", game_title, region_name + ".png")
         if os.path.exists(image_path):
             self.img_fromPipe = Image.open(image_path)
         else:
-            self.img_fromPipe = Image.open("games/noImg.png")
+            self.img_fromPipe = Image.open("if_dsl_gui_ai/games/noImg.png")
         self.img = self.img_fromPipe.resize((512, 512))
         self.img = ImageTk.PhotoImage(self.img)
         self.image_label.config(image=self.img)
@@ -78,7 +77,7 @@ class GamePlayFrame(ttk.Frame):
                 self.text_area.insert("1.0", "THE END")
                 the_end = True
                 if with_images:
-                    self.img = ImageTk.PhotoImage(file="theEnd.jpg")
+                    self.img = ImageTk.PhotoImage(file="if_dsl_gui_ai/theEnd.jpg")
                     self.image_label.config(image=self.img)
 
         if user_input in ["move N", "move E", "move S", "move W"] and not the_end:

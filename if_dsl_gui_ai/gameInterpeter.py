@@ -1,4 +1,4 @@
-from dslClasses import GameWorld, Region, Item, Player
+from if_dsl_gui_ai.dslClasses import GameWorld, Region, Item, Player
 from textx import metamodel_from_file
 from os.path import join, dirname
 
