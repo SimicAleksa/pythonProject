@@ -4,6 +4,11 @@
 Pre same instalacije ovog alata, potrebno je instalirati PyTorch, koji je neophodan za rad sa modelima vestacke inteligencije. Možete ga instalirati pomocu sledece komande:
 `pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118`
 
+``` 
+**Napomena**
+Neophodno je posedovanje graficke kartice sa CUDA jezgrima  
+```
+
 Nakon toga takodje u konzoli pokrecete sledecu komandu:
 `pip install if-dsl-gui-ai`
 
@@ -40,3 +45,7 @@ Nakon toga takodje u konzoli pokrecete sledecu komandu:
 - `simpleGame.game`: Ovo je primer jedne igre napisane u `gameWorldDSL.tx`-u.
 - `gameWorldDSL.tx`: Ova datoteka sadrži opis Domain-Specific Language (DSL) kojim je moguce pisati igre.
 - `dslClasses.py`: Ovaj fajl sadrži Python interpretaciju klasa definisanih u `gameWorldDSL.tx` formatu.
+
+##Dodatno
+- Za brzi rad aplikacije skinite [*Stable diffusion*](https://huggingface.co/runwayml/stable-diffusion-v1-5) sa sajta [*huggingface*](https://huggingface.co.)
+- Zatim je potrebno da kreirate novu *Environment variable*-u sa nazivom `SDV5_MODEL_PATH` i vrednoscu koja predstavlja putanju do *Stable diffusion*-a na vasem racunaru
