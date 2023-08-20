@@ -4,6 +4,8 @@ from if_dsl_gui_ai.gameInterpeter import parse_dsl
 from PIL import ImageTk
 from PIL import Image
 
+from os.path import join, dirname
+
 import os
 
 possible_commands = [
@@ -23,7 +25,7 @@ help_message = "Possible commands:\n" + "\n".join(possible_commands)
 class GamePlayFrame(ttk.Frame):
     def __init__(self, parent, game_title, game_content, with_images):
         super().__init__(parent)
-
+        self.this_folder = dirname(__file__)
         try:
             self.gameWorld = parse_dsl("gameWorldDSL.tx", game_title)
         except:
@@ -53,7 +55,7 @@ class GamePlayFrame(ttk.Frame):
         if os.path.exists(image_path):
             self.img_fromPipe = Image.open(image_path)
         else:
-            self.img_fromPipe = Image.open("if_dsl_gui_ai/noImg.png")
+            self.img_fromPipe = Image.open(join(self.this_folder, "noImg.png"))
         self.img = self.img_fromPipe.resize((512, 512))
         self.img = ImageTk.PhotoImage(self.img)
         self.image_label.config(image=self.img)
@@ -77,7 +79,8 @@ class GamePlayFrame(ttk.Frame):
                 self.text_area.insert("1.0", "THE END")
                 the_end = True
                 if with_images:
-                    self.img = ImageTk.PhotoImage(file="if_dsl_gui_ai/theEnd.jpg")
+                    # self.img = ImageTk.PhotoImage(file="if_dsl_gui_ai/theEnd.jpg")
+                    self.img = ImageTk.PhotoImage(file=join(self.this_folder, "theEnd.jpg"))
                     self.image_label.config(image=self.img)
 
         if user_input in ["move N", "move E", "move S", "move W"] and not the_end:
