@@ -10,8 +10,8 @@ Nakon toga takodje u konzoli pokrecete sledecu komandu:
 
 ## Inicijalno postavljanje
 1. Nakon instalacije, potrebno je da u root direktorijumu svog projekta kreirate direktorijum sa nazivom `if_dsl_gui_ai`.
-2. U novokreiranom direktorijumu kreirati jos jedan sa nazivom `games`.
-   (ostatak je opcionalan ukoliko želite da imate primer igre)
+2. U novokreiranom direktorijumu kreirati jos jedan sa nazivom `games`.  
+  *(ostatak je opcionalan ukoliko želite da imate primer igre)*
 3. U `games` folderu kreirajte novi folder sa nazivom `simpleGame.game`.
 4. U `simpleGame.game` prekopirajte sledece stvari iz `venv/Lib/site-packages/if_dsl_gui_ai`:
     - Slike: `backyard.png`, `entryway.png`, `hallway.png`, `kitchen.png`
